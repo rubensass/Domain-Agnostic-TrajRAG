@@ -25,6 +25,17 @@ from (`MARITIME-SPOOFING/`, vendored read-only — see
 [Provenance](#provenance-what-is-and-isnt-in-this-repo)). It does not include
 the aviation codebase, which is a separate, earlier project.
 
+> **Looking for the aviation instantiation?** The conference version of
+> TrajRAG (takeoff/cruise/landing, ADS-B data) is a separate codebase and
+> repository, not duplicated here: **https://github.com/yf2595/TrajRAG**
+> (cited in this paper's own Data Availability statement,
+> `paper/sec_conclusion.tex`). A condensed, reproduced-from-that-paper
+> summary of its results is in `paper/sec_results.tex`
+> ("Aviation reference point", Table 5) and in
+> `presentation_summary/summary.pdf` (page 3), for context alongside the
+> maritime numbers in this repo — but the aviation code, data, and full
+> per-method results live in that other repository.
+
 ## Table of contents
 
 1. [Repository layout](#repository-layout)
@@ -413,7 +424,8 @@ as an edit to these files.
 
 **Not included, by design:**
 - The aviation codebase (a separate, earlier project; see the conference
-  paper, `paper/sec_intro.tex`, `\citep{felendler2026trajrag}`).
+  paper, `paper/sec_intro.tex`, `\citep{felendler2026trajrag}`, and
+  **https://github.com/yf2595/TrajRAG** for its code, data and results).
 - `external/AIS-ACNet` — the original authors' code
   (https://github.com/yuyolshin/AIS-ACNet, MIT License). `baselines/
   ais_acnet/` here is new code that builds the dataset and training loop
