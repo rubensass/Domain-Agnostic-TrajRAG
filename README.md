@@ -1,4 +1,4 @@
-# TrajRAG — Maritime Instantiation (EAAI journal extension)
+# Domain-Agnostic TrajRAG — Maritime Instantiation (EAAI journal extension)
 
 Code, data, and results for the maritime half of:
 
@@ -43,7 +43,7 @@ the aviation codebase, which is a separate, earlier project.
 ## Repository layout
 
 ```
-TrajRAG-maritime/
+Domain-Agnostic-TrajRAG/
 ├── Engineering Applications of Artificial Intelligence/
 │   ├── baselines/              every baseline method compared against TrajRAG
 │   │   ├── ais_acnet/            trained CNN baseline (Shin et al., same journal)
@@ -73,8 +73,8 @@ not need to move anything to run the code; just clone this repo as-is.
 ## Setup
 
 ```bash
-git clone <this-repo-url> TrajRAG-maritime
-cd TrajRAG-maritime
+git clone <this-repo-url> Domain-Agnostic-TrajRAG
+cd Domain-Agnostic-TrajRAG
 python3 -m venv .venv && source .venv/bin/activate   # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
