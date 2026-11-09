@@ -1,0 +1,110 @@
+\section{Domain instantiations}
+\label{sec:instantiation}
+
+Table~\ref{tab:adapters} lists both adapters side by side.
+
+\begin{table}[t]
+\centering
+\caption{Domain adapters used in this study. Everything outside this table
+(embedding model, retrieval, prompting protocol, iterative loop, feasibility
+guard and output schema) is shared code. The maritime column is new in this
+paper.}
+\label{tab:adapters}
+\footnotesize
+\begin{tabular}{p{3.0cm}p{4.0cm}p{4.0cm}}
+\toprule
+Adapter element & Aviation (ADS-B) & Maritime (AIS) \\
+\midrule
+State schema $\mathcal{S}$ & Latitude, longitude, ground speed, track, barometric altitude & Latitude, longitude, speed over ground (SOG), course over ground (COG), heading \\
+Untrusted after onset & Latitude, longitude, ground speed, track & Latitude, longitude, SOG, COG \\
+Trusted signal $a$ & Barometric altitude (pressure sensor) & Gyrocompass true heading \\
+Phase taxonomy $\mathcal{P}$ & Takeoff / cruise / landing & Departure / transit / arrival \\
+Verbaliser $\tau$ (prompt) & Flight-phase template (\ref{app:templates}) & Voyage-phase template (\ref{app:templates}) \\
+Environment $\mathcal{E}$ & Meteomatics: wind aloft, turbulence indicators & Open-Meteo Marine: waves, swell, current, wind, sea-surface temperature \\
+Memory $\mathcal{M}$ & FlightRadar24 history; one index per phase & NOAA Marine Cadastre history; one index per phase and corridor \\
+Kinematics $\kappa$ & $\Delta t = 120$\,s; $\alpha = 1.2$ & $\Delta t = 300$\,s (resampled); $\alpha = 1.2$ (Section~\ref{sec:maritime-calibration}) \\
+Reference-speed rule & Inferred from consecutive accepted reconstructed positions & Held at the last trusted SOG for the whole blackout (Section~\ref{sec:maritime-speedrule}) \\
+LLM backbone & gpt-5.1 (frozen) & gpt-4.1 (frozen) \\
+Retrieved neighbours $K$ & 5 & 6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Aviation adapter}
+
+The aviation adapter is that of the conference version
+\citep{felendler2026trajrag} and is summarised here only for completeness.
+The trusted signal is barometric altitude, which comes from the air-data
+system rather than the GNSS receiver. Phases (takeoff, cruise, landing) are
+assigned from altitude trends. The verbaliser describes the flight phase,
+time since takeoff, altitude trend, heading and speed trend and the aligned
+wind and turbulence indicators. During a blackout, ground speed and heading
+are not read from ADS-B; they are inferred from consecutive accepted
+reconstructed positions and used as the reference speed of
+Eq.~\eqref{eq:guard}.
+
+\subsection{Maritime adapter}
+\label{sec:maritime-adapter}
+
+\paragraph{Trusted signal} On commercial vessels, true heading is normally
+supplied by a gyrocompass, which is independent of GNSS, whereas SOG and COG
+are computed by the GNSS receiver. We therefore treat heading as the
+maritime counterpart of barometric altitude, and SOG and COG as untrusted
+after onset. Heading was present on 98--99\% of AIS reports in our corpus,
+comparable to the availability of barometric altitude in ADS-B. Vessels
+whose heading comes from a satellite compass break this independence
+assumption. We return to this point in Section~\ref{sec:threats}.
+
+\paragraph{Phases and memory} Voyages are segmented into departure (leaving
+the berth and manoeuvring), transit (steady channel or approach passage) and
+arrival (slowing and berthing). One index is built per phase and per
+corridor, so the adapter's memory for a port is simply a small set of
+indices built from that port's history. This segmentation is computed
+offline from each completed voyage's full SOG trend, which is the practical
+way to build phase-indexed memory from historical data; it is not an
+implementation of the online phase-assignment rule $\pi$ of
+Section~\ref{sec:framework}, which is restricted to trusted information
+available up to the current step. At evaluation time, each benchmark
+voyage's phase label is taken from this offline segmentation, so the
+maritime instantiation evaluates reconstruction \emph{within} a known phase
+rather than online phase identification; we return to this in
+Section~\ref{sec:threats}.
+
+\paragraph{Verbaliser} The voyage template mirrors the flight template but
+uses maritime vocabulary and drivers. A representative departure state
+reads: ``Vessel type: cargo. 15.0 minutes into the departure phase, the
+vessel is tracking northeast through the Galveston Bay entrance channel,
+heading 048\textdegree{} with course over ground 045\textdegree{} and speed
+over ground 8.4 knots, gradually accelerating away from berth. Sea state is
+moderate, with 0.6\,m wave height and a light following swell; a moderate
+current of 0.9\,km/h runs with the vessel's heading, and a 12\,km/h wind
+blows from the southeast. Motion has been steady, with no abrupt heading
+change.'' The environmental provider attaches wave height, direction and
+period, swell height, ocean-current speed and direction, sea-surface
+temperature and 10\,m wind speed and direction from Open-Meteo Marine
+\citep{openmeteo2025}. \ref{app:templates} gives both templates
+verbatim, together with a fully worked maritime reconstruction step.
+
+\paragraph{Sampling} Unlike ADS-B, AIS reporting is irregular: Class A
+transponders change their rate with speed and navigational status, and
+messages are lost to channel contention \citep{itu2014ais}. Rather than
+letting the guard handle a variable $\Delta t$, the adapter resamples every
+voyage onto a uniform 5-minute grid before segmentation. We verified that
+all consecutive points within a segmented phase are exactly 300\,s apart.
+This keeps the engine identical across domains, since the irregularity is
+absorbed by the adapter's preprocessing.
+
+\paragraph{Reference-speed rule}
+\label{sec:maritime-speedrule}
+The maritime $\mathrm{SPEEDRULE}$ holds the reference speed $v$ of
+Eq.~\eqref{eq:guard} at the last \emph{trusted} SOG -- the value recorded
+immediately before onset -- for the entire blackout, rather than updating it
+from any post-onset field. This is the deployable rule used throughout
+Section~\ref{sec:results}: it uses no information that a real blackout would
+withhold. An earlier implementation instead updated the reference speed from
+the recorded SOG at each reconstructed step; because SOG is GNSS-derived,
+that variant used information a genuine blackout would not provide, and we
+do not report it as a result in this paper. Section~\ref{sec:r1-result}
+reports the corrected, deployable numbers together with the size of the
+effect relative to that earlier, non-deployable variant, as a transparency
+check rather than as an additional claimed result.

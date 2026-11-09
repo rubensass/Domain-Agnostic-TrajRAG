@@ -1,0 +1,21 @@
+Corridor data + restricted FAISS indexes warmed.
+179 experiments remaining (179 total), hard stop at $19.5
+  10/179 done (0 failed) -- running cost ~$0.77, 0.3 min elapsed
+  20/179 done (0 failed) -- running cost ~$1.55, 0.5 min elapsed
+  30/179 done (0 failed) -- running cost ~$2.37, 0.8 min elapsed
+  40/179 done (0 failed) -- running cost ~$3.14, 1.0 min elapsed
+  50/179 done (0 failed) -- running cost ~$3.95, 1.2 min elapsed
+  60/179 done (0 failed) -- running cost ~$4.73, 1.5 min elapsed
+  70/179 done (0 failed) -- running cost ~$5.47, 1.7 min elapsed
+  80/179 done (0 failed) -- running cost ~$6.07, 1.9 min elapsed
+  90/179 done (0 failed) -- running cost ~$6.71, 2.1 min elapsed
+  100/179 done (0 failed) -- running cost ~$7.30, 2.3 min elapsed
+  110/179 done (0 failed) -- running cost ~$7.89, 2.5 min elapsed
+  120/179 done (0 failed) -- running cost ~$8.48, 2.7 min elapsed
+  130/179 done (0 failed) -- running cost ~$9.20, 3.0 min elapsed
+  140/179 done (0 failed) -- running cost ~$10.56, 3.2 min elapsed
+  150/179 done (0 failed) -- running cost ~$11.51, 3.5 min elapsed
+  160/179 done (0 failed) -- running cost ~$12.83, 3.8 min elapsed
+  170/179 done (0 failed) -- running cost ~$13.98, 4.0 min elapsed
+
+completed fully. 179 total, 0 failed. Final running cost ~$14.97

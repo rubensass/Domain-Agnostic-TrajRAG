@@ -1,0 +1,14 @@
+{
+  "model": "TimesNet",
+  "phase": "departure",
+  "window": 4,
+  "n_params": 37496240,
+  "train_size": 1547,
+  "val_size": 273,
+  "test_size": 113,
+  "ade_km": 1.4488984411864527,
+  "fde_km": 2.2359934922515223,
+  "ade_nm": 0.7823425708350177,
+  "fde_nm": 1.207339898623932,
+  "best_val_loss": 0.1278068631887436
+}

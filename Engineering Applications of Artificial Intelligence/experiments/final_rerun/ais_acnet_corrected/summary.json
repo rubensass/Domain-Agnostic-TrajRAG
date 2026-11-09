@@ -1,0 +1,78 @@
+{
+  "HOU-SHIPCHANNEL": {
+    "departure": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.6994
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 1.8017
+      },
+      "item4": {
+        "n": 63,
+        "mean_km": 1.642
+      }
+    },
+    "transit": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.4093
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 1.6597
+      },
+      "item4": {
+        "n": 63,
+        "mean_km": 1.1905
+      }
+    },
+    "arrival": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.1366
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 1.181
+      },
+      "item4": {
+        "n": 53,
+        "mean_km": 1.096
+      }
+    }
+  },
+  "LA-LONGBEACH": {
+    "departure": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.2006
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 1.1275
+      }
+    },
+    "transit": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.3796
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 1.9471
+      }
+    },
+    "arrival": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.1184
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 1.0199
+      }
+    }
+  }
+}

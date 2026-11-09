@@ -1,0 +1,14 @@
+{
+  "model": "DLinear",
+  "phase": "departure",
+  "window": 4,
+  "n_params": 40,
+  "train_size": 1547,
+  "val_size": 273,
+  "test_size": 113,
+  "ade_km": 3.5294107879981382,
+  "fde_km": 5.329636794742246,
+  "ade_nm": 1.905729367169621,
+  "fde_nm": 2.877773647269031,
+  "best_val_loss": 0.14134198874235154
+}

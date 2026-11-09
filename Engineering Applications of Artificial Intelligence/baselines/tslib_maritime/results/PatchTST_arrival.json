@@ -1,0 +1,14 @@
+{
+  "model": "PatchTST",
+  "phase": "arrival",
+  "window": 4,
+  "n_params": 267524,
+  "train_size": 1482,
+  "val_size": 262,
+  "test_size": 99,
+  "ade_km": 1.3341857137487914,
+  "fde_km": 2.10464851518552,
+  "ade_nm": 0.7204026532120903,
+  "fde_nm": 1.1364192846574082,
+  "best_val_loss": 0.13833034858107568
+}

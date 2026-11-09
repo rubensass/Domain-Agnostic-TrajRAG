@@ -1,0 +1,150 @@
+{
+  "HOU-SHIPCHANNEL": {
+    "departure": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 2.211,
+        "baseline_mean": 1.14,
+        "median_diff": -0.353,
+        "ci": [
+          -0.489,
+          -0.223
+        ],
+        "p": 4.22224424672362e-09
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 2.211,
+        "baseline_mean": 6.448,
+        "median_diff": 4.453,
+        "ci": [
+          3.844,
+          4.899
+        ],
+        "p": 1.661196221996077e-21
+      }
+    },
+    "transit": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 1.179,
+        "baseline_mean": 0.734,
+        "median_diff": -0.202,
+        "ci": [
+          -0.292,
+          -0.133
+        ],
+        "p": 3.978173038596557e-09
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 1.179,
+        "baseline_mean": 7.717,
+        "median_diff": 7.082,
+        "ci": [
+          6.538,
+          7.347
+        ],
+        "p": 8.736222465958632e-22
+      }
+    },
+    "arrival": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 1.516,
+        "baseline_mean": 2.023,
+        "median_diff": -0.016,
+        "ci": [
+          -0.2,
+          0.001
+        ],
+        "p": 0.5551159717306628
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 1.516,
+        "baseline_mean": 2.704,
+        "median_diff": 0.079,
+        "ci": [
+          0.002,
+          2.208
+        ],
+        "p": 4.7679974552379336e-05
+      }
+    }
+  },
+  "LA-LONGBEACH": {
+    "departure": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 0.797,
+        "baseline_mean": 0.586,
+        "median_diff": -0.068,
+        "ci": [
+          -0.136,
+          -0.031
+        ],
+        "p": 0.006647222967151357
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 0.797,
+        "baseline_mean": 2.959,
+        "median_diff": 2.516,
+        "ci": [
+          2.338,
+          2.627
+        ],
+        "p": 2.740583393434182e-20
+      }
+    },
+    "transit": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 0.881,
+        "baseline_mean": 0.598,
+        "median_diff": -0.125,
+        "ci": [
+          -0.285,
+          -0.042
+        ],
+        "p": 2.6022809353462896e-06
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 0.881,
+        "baseline_mean": 2.935,
+        "median_diff": 2.071,
+        "ci": [
+          1.896,
+          2.242
+        ],
+        "p": 3.959325975027474e-22
+      }
+    },
+    "arrival": {
+      "headingdr": {
+        "n": 125,
+        "trajrag_mean": 0.166,
+        "baseline_mean": 0.129,
+        "median_diff": 0.001,
+        "ci": [
+          -0.003,
+          0.002
+        ],
+        "p": 0.7181249827545224
+      },
+      "stay": {
+        "n": 125,
+        "trajrag_mean": 0.166,
+        "baseline_mean": 0.541,
+        "median_diff": 0.0,
+        "ci": [
+          -0.005,
+          0.002
+        ],
+        "p": 0.6109555195322875
+      }
+    }
+  }
+}

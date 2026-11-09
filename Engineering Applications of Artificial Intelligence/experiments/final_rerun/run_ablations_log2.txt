@@ -1,0 +1,7 @@
+20 Houston voyages for ablations
+Corridor data + restricted FAISS indexes warmed.
+Resuming: 165 already completed.
+15 experiments remaining (180 total)
+  180/180 done (0 failed) -- running cost ~$35.13, 1.4 min elapsed
+
+Done. 180 total, 0 failed. Final running cost ~$35.13

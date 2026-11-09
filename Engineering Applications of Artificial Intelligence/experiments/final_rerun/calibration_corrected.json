@@ -1,0 +1,22 @@
+{
+  "departure": {
+    "step_pairs": 33821,
+    "Q99_rho": 1.95,
+    "share_over_1.2_pct": 11.98
+  },
+  "transit": {
+    "step_pairs": 22087,
+    "Q99_rho": 1.47,
+    "share_over_1.2_pct": 6.67
+  },
+  "arrival": {
+    "step_pairs": 33169,
+    "Q99_rho": 1.51,
+    "share_over_1.2_pct": 6.72
+  },
+  "all_phases": {
+    "step_pairs": 89077,
+    "Q99_rho": 1.72,
+    "share_over_1.2_pct": 8.71
+  }
+}

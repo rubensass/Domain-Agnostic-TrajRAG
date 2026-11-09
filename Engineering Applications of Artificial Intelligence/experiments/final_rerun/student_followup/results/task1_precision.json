@@ -1,0 +1,56 @@
+{
+  "TrajRAG": {
+    "departure": {
+      "n": 63,
+      "mean_km_full_precision": 1.3015424717093897,
+      "mean_km_3dp": 1.302
+    },
+    "transit": {
+      "n": 63,
+      "mean_km_full_precision": 0.7305613204246698,
+      "mean_km_3dp": 0.731
+    },
+    "arrival": {
+      "n": 53,
+      "mean_km_full_precision": 0.6829549286729076,
+      "mean_km_3dp": 0.683
+    }
+  },
+  "AIS-ACNet": {
+    "departure": {
+      "n": 63,
+      "mean_km_full_precision": 1.6420139310397805,
+      "mean_km_3dp": 1.642
+    },
+    "transit": {
+      "n": 63,
+      "mean_km_full_precision": 1.1904602020474269,
+      "mean_km_3dp": 1.19
+    },
+    "arrival": {
+      "n": 53,
+      "mean_km_full_precision": 1.095991009853408,
+      "mean_km_3dp": 1.096
+    }
+  },
+  "iTransformer": {
+    "departure": {
+      "n_test_voyages_itransformer_own_set": 113,
+      "ade_km_full_precision": 2.4052750667573477,
+      "ade_km_3dp": 2.405,
+      "note": "Aggregate ADE only; no per-voyage breakdown was saved for this or any other modern forecaster (DLinear/PatchTST/Informer/Autoformer/FEDformer/TimesNet), and its test set (n=113) is NOT the same voyage set as TrajRAG's matched n=63 subset -- so no paired per-voyage comparison or Wilcoxon test against iTransformer is possible from saved outputs."
+    },
+    "transit": {
+      "n_test_voyages_itransformer_own_set": 118,
+      "ade_km_full_precision": 0.7342970905077407,
+      "ade_km_3dp": 0.734,
+      "note": "Aggregate ADE only; no per-voyage breakdown was saved for this or any other modern forecaster (DLinear/PatchTST/Informer/Autoformer/FEDformer/TimesNet), and its test set (n=118) is NOT the same voyage set as TrajRAG's matched n=63 subset -- so no paired per-voyage comparison or Wilcoxon test against iTransformer is possible from saved outputs."
+    },
+    "arrival": {
+      "n_test_voyages_itransformer_own_set": 99,
+      "ade_km_full_precision": 1.214479472170637,
+      "ade_km_3dp": 1.214,
+      "note": "Aggregate ADE only; no per-voyage breakdown was saved for this or any other modern forecaster (DLinear/PatchTST/Informer/Autoformer/FEDformer/TimesNet), and its test set (n=99) is NOT the same voyage set as TrajRAG's matched n=53 subset -- so no paired per-voyage comparison or Wilcoxon test against iTransformer is possible from saved outputs."
+    }
+  }
+}

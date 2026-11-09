@@ -1,0 +1,14 @@
+{
+  "model": "Autoformer",
+  "phase": "arrival",
+  "window": 4,
+  "n_params": 472840,
+  "train_size": 1482,
+  "val_size": 262,
+  "test_size": 99,
+  "ade_km": 1.6669491676341772,
+  "fde_km": 1.9669970750549313,
+  "ade_nm": 0.9000805440789293,
+  "fde_nm": 1.0620934530534185,
+  "best_val_loss": 0.13273992612957955
+}

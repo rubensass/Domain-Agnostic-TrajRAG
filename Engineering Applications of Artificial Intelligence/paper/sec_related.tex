@@ -1,0 +1,100 @@
+\section{Related work}
+\label{sec:related}
+
+\subsection{Satellite-navigation interference in transport surveillance}
+
+ADS-B horizontal position and velocity are derived from the aircraft's GNSS
+receiver, so interference propagates directly into the surveillance picture
+\citep{khan2025adsbsurvey,pik2024detecting,pik2025gps}. AIS has the same
+weakness: position, SOG and COG are GNSS-derived and broadcast over an
+unauthenticated VHF link \citep{itu2014ais}. Most research addresses
+\emph{detection}. In aviation, studies correlate ADS-B position gaps and
+integrity indicators with notices to airmen \citep{pik2024detecting}. At
+sea, recent work uses AIS as a sensor of opportunity to detect and localise
+interference over wide areas \citep{park2026aisbased,winkel2026seaspoof},
+and recurrent classifiers flag spoofed AIS points \citep{raj2025vessel}.
+These detectors decide \emph{when} a track can no longer be trusted. Our
+work starts at that point and addresses what the operator sees
+\emph{after} the decision.
+
+\subsection{Trajectory prediction and reconstruction}
+
+Classical trackers such as Kalman and interacting-multiple-model filters
+\citep{kalman1960new,ren2024improved} work well over short horizons. Under
+interference, however, corrupted measurements are discarded rather than
+smoothed, so the filter runs open loop and its error grows with the gap.
+Autoregressive models behave similarly. Recurrent networks
+\citep{pang2019lstm,hashemi2024bidirectional} capture non-linear motion but
+depend on training coverage and drift without feedback. Recent reviews of
+aircraft \citep{kwak2025evolution} and ship trajectory prediction
+\citep{li2023ship,guo2026systematic} describe a mature but domain-siloed
+literature dominated by recurrent, convolutional, attention-based and hybrid
+networks. Among maritime models, AIS-ACNet \citep{shin2024aisacnet} couples
+parallel dilated-convolution encoders for position and for auxiliary SOG/COG
+targets and was evaluated on Port of Houston AIS. Because it predicts
+forward only and has public code, it is the most suitable literature
+baseline for our protocol. TrAISformer \citep{nguyen2024transformer}
+discretises AIS states and predicts them with a transformer. Generic
+forecasters such as DLinear \citep{zeng2023transformers}, PatchTST
+\citep{nie2023timeseries}, iTransformer \citep{liu2024itransformer}, Informer
+\citep{zhou2021informer}, Autoformer \citep{wu2021autoformer}, FEDformer
+\citep{zhou2022fedformer} and TimesNet \citep{wu2023timesnet} provide strong
+domain-independent baselines, but each must be trained on target data.
+
+A separate line of work imputes ordinary AIS coverage gaps. MH-GIN
+\citep{liu2026mhgin} uses multi-scale heterogeneous graphs. HABIT
+\citep{spiliopoulos2026habit} uses historical hexagon transitions and path
+search. VISTA \citep{liu2026vista} lets an LLM choose an imputation pattern
+from a knowledge graph built from historical counts, which gives each repair
+a readable provenance. These methods are the closest to ours in spirit, but
+they interpolate between two known endpoints and address benign gaps. Our
+setting is forward-only: the end of the blackout is unknown, and the
+positions inside it are deliberately discarded.
+
+\subsection{Large language models and retrieval for temporal data}
+
+LLMs can forecast numeric series zero-shot when values are serialised as
+text \citep{gruver2023large}, and they can be reprogrammed for forecasting
+with a small trained adapter \citep{jin2024timellm}. Retrieval-augmented
+generation grounds a parametric model in non-parametric memory
+\citep{lewis2020retrieval}, and TS-RAG \citep{ning2025tsrag} shows that
+retrieval improves zero-shot time-series foundation models. For flights,
+LLMs have been fine-tuned on serialised ADS-B states \citep{luo2025large}
+and assessed qualitatively for reconstruction \citep{zhang2024exploratory}.
+None of these approaches encodes the constraints that make trajectory
+reconstruction safe to deploy: operational phase, a trusted signal that is
+physically independent of the corrupted one, and a hard bound on feasible
+displacement. None of them has been shown to move between transport domains
+without retraining.
+
+\subsection{Positioning}
+
+Table~\ref{tab:positioning} summarises where this work sits. Its
+distinguishing combination is a post-detection, forward-only formulation, no
+target-domain training, an explicit physical guard and a demonstrated
+transfer across two physically distinct transport domains.
+
+\begin{table}[t]
+\centering
+\caption{Positioning of this work relative to representative
+trajectory-prediction and reconstruction approaches. ``Post-detection''
+means that horizontal positions after the onset are withheld rather than
+denoised. ``No training'' means that no model parameters are fitted on
+target-domain trajectories.}
+\label{tab:positioning}
+\footnotesize
+\begin{tabular}{p{3.0cm}ccccc}
+\toprule
+Approach & Post-det. & No training & Phys. guard & Multi-domain & Interpretable \\
+\midrule
+Kalman / IMM filters & \checkmark & \checkmark & -- & \checkmark & -- \\
+Recurrent/conv. predictors & -- & -- & -- & -- & -- \\
+Generic time-series forecasters & -- & -- & -- & -- & -- \\
+AIS imputation (MH-GIN, VISTA, HABIT) & -- & partly & -- & -- & partly \\
+Fine-tuned LLM flight prediction & -- & -- & -- & -- & \checkmark \\
+Zero-shot/retrieval LLM forecasting & -- & \checkmark & -- & \checkmark & -- \\
+TrajRAG, aviation only \citep{felendler2026trajrag} & \checkmark & \checkmark & \checkmark & -- & \checkmark \\
+\textbf{This work} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}

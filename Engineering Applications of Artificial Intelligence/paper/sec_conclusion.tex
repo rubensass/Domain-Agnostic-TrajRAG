@@ -1,0 +1,80 @@
+\section{Conclusion and future work}
+\label{sec:conclusion}
+
+This paper turned TrajRAG from an aviation method into a domain-agnostic,
+training-free framework for reconstructing trajectories after
+satellite-navigation spoofing has been detected. The method is split into a
+shared engine (phase-aware retrieval, a frozen large language model that
+proposes the next position, a kinematic feasibility guard and a feedback
+loop) and a domain adapter made of a prompt template, phase-indexed
+memories, a trusted non-satellite signal and constants obtained by a fixed
+calibration procedure. Moving from aircraft to ships then required no model
+training. On commercial vessels in two port corridors, evaluated against a
+retrieval memory that structurally excludes both the test set and any
+chronologically later voyage, the maritime instantiation reduced error by a
+factor of 1.3--1.5 relative to the best classical baseline in every phase.
+It was significantly more accurate than classical, recurrent and
+retrieval-only methods in every phase tested. Against a trained,
+ship-specific convolutional network, no significant difference was detected
+in any phase (Houston, $n=50$); we read matching a network purpose-trained
+on this corridor's own traffic, using no maritime training data at all, as
+the relevant finding. TrajRAG reconstructs a full blackout faster than a
+single AIS reporting interval. Together with the aviation results, this
+supports a single reconstruction service for ATC and VTS that is extended
+by adding adapters rather than by training models, with the caveat that its
+accuracy advantage over a dedicated, well-resourced domain model is not yet
+established on this evidence.
+
+Future work will (i) evaluate the phase-specific tolerances already derived
+by the calibration procedure ($\alpha \approx 1.5$--2.0 across phases on the
+corrected data), which requires new reconstructions rather than re-analysis
+of existing results, since the guard sits inside the autoregressive loop
+(Section~\ref{sec:maritime-calibration}); (ii) re-run the backbone-sensitivity
+and ablation-forecaster comparisons at full scale under the corrected
+preprocessing and retrieval memory, which budget limited this paper to a
+smaller sample; (iii) extend the forecasters to the full horizon and
+retrain them, and AIS-ACNet, on the corrected data at the full 125-voyage
+scale to recover the statistical power this paper's budget could not fund;
+(iv) validate on documented maritime interference incidents with
+independent radar or satellite references; (v) instantiate further domains
+to test how far the adapter abstraction extends; and (vi) implement and
+evaluate online, trusted-signal-only phase identification for maritime,
+rather than relying on offline full-voyage segmentation
+(Section~\ref{sec:threats}).
+
+\section*{CRediT authorship contribution statement}
+\textbf{Yuval Felendler:} Conceptualization, Methodology, Software,
+Investigation, Data curation, Formal analysis, Visualization, Writing --
+original draft. \textbf{Ruben Sasson:} Software, Investigation, Validation,
+Writing -- review \& editing. \textbf{Yuval Elovici:} Supervision,
+Resources, Writing -- review \& editing. \textbf{Asaf Shabtai:}
+Conceptualization, Supervision, Methodology, Writing -- review \& editing.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests
+or personal relationships that could have appeared to influence the work
+reported in this paper.
+
+\section*{Data availability}
+The maritime corpus is built from public NOAA Marine Cadastre AIS archives
+\citep{noaa2025marinecadastre} and Open-Meteo Marine data
+\citep{openmeteo2025}. Code for both instantiations, all baselines, the
+calibration analysis and the statistical tests, together with the voyage
+identifiers of the test sets, is available at
+\url{https://github.com/yf2595/TrajRAG}. Aviation trajectories are subject
+to FlightRadar24 and Meteomatics terms; the exact queries needed to rebuild
+the corpus are documented in the repository. LLM-based experiments require
+access to the OpenAI models named in Section~\ref{sec:implementation}.
+
+\section*{Declaration of generative AI and AI-assisted technologies in the
+manuscript preparation process}
+During the preparation of this work the authors used an AI writing
+assistant to edit and restructure the manuscript text. After using this
+tool, the authors reviewed and edited the content as needed and take full
+responsibility for the content of the published article. Large language
+models used as components of the proposed method are described in
+Section~\ref{sec:implementation}.
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in
+the public, commercial, or not-for-profit sectors.

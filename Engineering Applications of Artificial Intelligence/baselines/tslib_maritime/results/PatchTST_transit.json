@@ -1,0 +1,14 @@
+{
+  "model": "PatchTST",
+  "phase": "transit",
+  "window": 3,
+  "n_params": 266627,
+  "train_size": 1212,
+  "val_size": 214,
+  "test_size": 118,
+  "ade_km": 1.2768168986537856,
+  "fde_km": 1.7225804794993178,
+  "ade_nm": 0.6894259711953485,
+  "fde_nm": 0.9301190494056791,
+  "best_val_loss": 0.15379113890230656
+}

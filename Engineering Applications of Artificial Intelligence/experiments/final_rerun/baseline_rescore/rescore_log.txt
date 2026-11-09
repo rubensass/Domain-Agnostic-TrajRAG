@@ -1,0 +1,134 @@
+=== HOU-SHIPCHANNEL: 50 voyages, methods=['Kalman', 'ARIMA', 'LSTM', 'BiLSTM', 'Numeric-kNN'] ===
+{
+  "Kalman": {
+    "departure": {
+      "n": 50,
+      "mean_km": 3.1635
+    },
+    "transit": {
+      "n": 50,
+      "mean_km": 2.6139
+    },
+    "arrival": {
+      "n": 50,
+      "mean_km": 4.2295
+    }
+  },
+  "ARIMA": {
+    "departure": {
+      "n": 50,
+      "mean_km": 3.6375
+    },
+    "transit": {
+      "n": 50,
+      "mean_km": 3.7798
+    },
+    "arrival": {
+      "n": 50,
+      "mean_km": 2.2419
+    }
+  },
+  "LSTM": {
+    "departure": {
+      "n": 50,
+      "mean_km": 10.4347
+    },
+    "transit": {
+      "n": 50,
+      "mean_km": 7.9855
+    },
+    "arrival": {
+      "n": 50,
+      "mean_km": 6.4151
+    }
+  },
+  "BiLSTM": {
+    "departure": {
+      "n": 50,
+      "mean_km": 10.025
+    },
+    "transit": {
+      "n": 50,
+      "mean_km": 14.1036
+    },
+    "arrival": {
+      "n": 50,
+      "mean_km": 16.4273
+    }
+  },
+  "Numeric-kNN": {
+    "departure": {
+      "n": 50,
+      "mean_km": 5.5341
+    },
+    "transit": {
+      "n": 50,
+      "mean_km": 3.9282
+    },
+    "arrival": {
+      "n": 50,
+      "mean_km": 3.1706
+    }
+  }
+}
+=== LA-LONGBEACH: 10 voyages, methods=['Kalman', 'ARIMA', 'LSTM', 'BiLSTM'] ===
+{
+  "Kalman": {
+    "departure": {
+      "n": 10,
+      "mean_km": 1.199
+    },
+    "transit": {
+      "n": 10,
+      "mean_km": 2.6344
+    },
+    "arrival": {
+      "n": 10,
+      "mean_km": 0.3588
+    }
+  },
+  "ARIMA": {
+    "departure": {
+      "n": 10,
+      "mean_km": 1.5244
+    },
+    "transit": {
+      "n": 10,
+      "mean_km": 3.0052
+    },
+    "arrival": {
+      "n": 10,
+      "mean_km": 0.4871
+    }
+  },
+  "LSTM": {
+    "departure": {
+      "n": 10,
+      "mean_km": 4.6874
+    },
+    "transit": {
+      "n": 10,
+      "mean_km": 5.0093
+    },
+    "arrival": {
+      "n": 10,
+      "mean_km": 4.2377
+    }
+  },
+  "BiLSTM": {
+    "departure": {
+      "n": 10,
+      "mean_km": 3.427
+    },
+    "transit": {
+      "n": 10,
+      "mean_km": 2.8077
+    },
+    "arrival": {
+      "n": 10,
+      "mean_km": 8.2868
+    }
+  }
+}
+
+Done.

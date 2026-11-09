@@ -1,0 +1,70 @@
+{
+  "HOU-SHIPCHANNEL_arrival": {
+    "corridor": "HOU-SHIPCHANNEL",
+    "phase": "arrival",
+    "selection": {
+      "representative": {
+        "voyage_id": "538005936_2025-05-29T00:32:38",
+        "trajrag_error_km": 0.8161179066263702,
+        "rank": 25,
+        "n": 50,
+        "median_of_group": 0.8856443276681129
+      },
+      "difficult": {
+        "voyage_id": "374318000_2025-05-13T21:37:48",
+        "trajrag_error_km": 3.4650346091071444,
+        "rank": 45,
+        "n": 50,
+        "p90_of_group": 3.466834963299384
+      }
+    },
+    "plotted": {
+      "representative": {
+        "voyage_id": "538005936_2025-05-29T00:32:38",
+        "trajrag_mhe_km": 0.8161179066263702,
+        "aisacnet_mhe_km": 0.6204744330680728,
+        "blackout_minutes": 20.0
+      },
+      "difficult": {
+        "voyage_id": "374318000_2025-05-13T21:37:48",
+        "trajrag_mhe_km": 3.4650346091071444,
+        "aisacnet_mhe_km": 1.6650717622080777,
+        "blackout_minutes": 160.0
+      }
+    }
+  },
+  "LA-LONGBEACH_transit": {
+    "corridor": "LA-LONGBEACH",
+    "phase": "transit",
+    "selection": {
+      "representative": {
+        "voyage_id": "215183000_2025-05-28T18:14:24",
+        "trajrag_error_km": 0.914719371948078,
+        "rank": 5,
+        "n": 10,
+        "median_of_group": 0.98739136864941
+      },
+      "difficult": {
+        "voyage_id": "229934000_2025-05-27T19:44:14",
+        "trajrag_error_km": 2.0774700640982706,
+        "rank": 9,
+        "n": 10,
+        "p90_of_group": 2.6454719033884198
+      }
+    },
+    "plotted": {
+      "representative": {
+        "voyage_id": "215183000_2025-05-28T18:14:24",
+        "trajrag_mhe_km": 0.914719371948078,
+        "aisacnet_mhe_km": 1.9224973568926937,
+        "blackout_minutes": 15.0
+      },
+      "difficult": {
+        "voyage_id": "229934000_2025-05-27T19:44:14",
+        "trajrag_mhe_km": 2.0774700640982706,
+        "aisacnet_mhe_km": 0.8404839272715405,
+        "blackout_minutes": 25.0
+      }
+    }
+  }
+}

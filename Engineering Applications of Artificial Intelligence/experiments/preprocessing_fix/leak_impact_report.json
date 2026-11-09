@@ -1,0 +1,169 @@
+{
+  "raw": {
+    "HOU-SHIPCHANNEL": {
+      "original": {
+        "departure": {
+          "KALMAN": 3.5047,
+          "ARIMA": 4.0116
+        },
+        "transit": {
+          "KALMAN": 1.732,
+          "ARIMA": 2.6309
+        },
+        "arrival": {
+          "KALMAN": 3.9098,
+          "ARIMA": 1.8019
+        }
+      },
+      "corrected": {
+        "departure": {
+          "KALMAN": 3.588,
+          "ARIMA": 4.1993
+        },
+        "transit": {
+          "KALMAN": 2.2076,
+          "ARIMA": 3.2544
+        },
+        "arrival": {
+          "KALMAN": 4.1256,
+          "ARIMA": 2.2812
+        }
+      },
+      "Numeric-kNN": {
+        "original": {
+          "departure": 4.7085,
+          "transit": 3.2967,
+          "arrival": 2.2291
+        },
+        "corrected": {
+          "departure": 5.3118,
+          "transit": 3.7532,
+          "arrival": 2.4222
+        }
+      }
+    },
+    "LA-LONGBEACH": {
+      "original": {
+        "departure": {
+          "KALMAN": 1.1507,
+          "ARIMA": 1.5353
+        },
+        "transit": {
+          "KALMAN": 1.7839,
+          "ARIMA": 1.9421
+        },
+        "arrival": {
+          "KALMAN": 0.4997,
+          "ARIMA": 0.5057
+        }
+      },
+      "corrected": {
+        "departure": {
+          "KALMAN": 1.609,
+          "ARIMA": 1.8661
+        },
+        "transit": {
+          "KALMAN": 1.8656,
+          "ARIMA": 2.1105
+        },
+        "arrival": {
+          "KALMAN": 0.5697,
+          "ARIMA": 0.5236
+        }
+      }
+    }
+  },
+  "pct_change_summary": {
+    "HOU-SHIPCHANNEL": {
+      "departure": {
+        "KALMAN": {
+          "original_km": 3.5047,
+          "corrected_km": 3.588,
+          "pct_change": 2.38
+        },
+        "ARIMA": {
+          "original_km": 4.0116,
+          "corrected_km": 4.1993,
+          "pct_change": 4.68
+        },
+        "Numeric-kNN": {
+          "original_km": 4.7085,
+          "corrected_km": 5.3118,
+          "pct_change": 12.81
+        }
+      },
+      "transit": {
+        "KALMAN": {
+          "original_km": 1.732,
+          "corrected_km": 2.2076,
+          "pct_change": 27.46
+        },
+        "ARIMA": {
+          "original_km": 2.6309,
+          "corrected_km": 3.2544,
+          "pct_change": 23.7
+        },
+        "Numeric-kNN": {
+          "original_km": 3.2967,
+          "corrected_km": 3.7532,
+          "pct_change": 13.85
+        }
+      },
+      "arrival": {
+        "KALMAN": {
+          "original_km": 3.9098,
+          "corrected_km": 4.1256,
+          "pct_change": 5.52
+        },
+        "ARIMA": {
+          "original_km": 1.8019,
+          "corrected_km": 2.2812,
+          "pct_change": 26.6
+        },
+        "Numeric-kNN": {
+          "original_km": 2.2291,
+          "corrected_km": 2.4222,
+          "pct_change": 8.66
+        }
+      }
+    },
+    "LA-LONGBEACH": {
+      "departure": {
+        "KALMAN": {
+          "original_km": 1.1507,
+          "corrected_km": 1.609,
+          "pct_change": 39.83
+        },
+        "ARIMA": {
+          "original_km": 1.5353,
+          "corrected_km": 1.8661,
+          "pct_change": 21.55
+        }
+      },
+      "transit": {
+        "KALMAN": {
+          "original_km": 1.7839,
+          "corrected_km": 1.8656,
+          "pct_change": 4.58
+        },
+        "ARIMA": {
+          "original_km": 1.9421,
+          "corrected_km": 2.1105,
+          "pct_change": 8.67
+        }
+      },
+      "arrival": {
+        "KALMAN": {
+          "original_km": 0.4997,
+          "corrected_km": 0.5697,
+          "pct_change": 14.01
+        },
+        "ARIMA": {
+          "original_km": 0.5057,
+          "corrected_km": 0.5236,
+          "pct_change": 3.54
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,228 @@
+\section{Experimental design}
+\label{sec:design}
+
+\subsection{Data}
+\label{sec:data}
+
+Table~\ref{tab:datasets} summarises both corpora. The aviation corpus is
+described in \citet{felendler2026trajrag}. The maritime corpus is new. We
+downloaded 44 days of raw AIS position reports (19 April--1 June 2025, the
+same calendar window as the aviation collection) from the NOAA Marine
+Cadastre \citep{noaa2025marinecadastre}, a public United States government
+archive with no access restrictions, which supports replication. Two
+corridors with contrasting geometry were selected. The Houston Ship Channel,
+from the Galveston Bay entrance to the Port of Houston, is a long, narrow
+inland channel with dense tanker and cargo traffic. The Los Angeles/Long
+Beach approach is a shorter, more open approach. From 26.2 million reports
+we reconstructed 3,506 cargo and tanker voyages, segmented them into phases
+and attached the marine environmental context. For testing we randomly
+selected 250 vessels (125 per corridor) with at least four 5-minute points
+in every phase, the same minimum segment length as in aviation; selection is
+a uniform random sample over the full collection window, with no
+chronological holdout by itself. AIS-ACNet's training and validation sets
+exclude all test voyages and are themselves chronologically split
+(Section~\ref{sec:baselines}).
+
+An earlier implementation of TrajRAG's retrieval had two problems. First, it
+excluded only the exact query voyage from a corridor's corpus-wide index,
+not the other 124 test voyages, so a query could retrieve another test
+voyage as a precedent -- retrieval memory contamination, not a disclosable
+design choice. Second, the memory had no chronological cutoff, so a query
+could retrieve a precedent recorded after it, which a real-time deployment
+could never do. We rebuilt the memory to fix both: a corridor's retrieval
+index is now built only from the chronologically earliest half of its
+non-test voyages (1,141 of 2,283 non-test Houston voyages; 486 of 973
+non-test Los Angeles/Long Beach voyages), and retrieval additionally
+excludes every voyage in the test set, not only the query. Every TrajRAG
+reconstruction reported in this paper queries only this pre-cutoff memory,
+so no retrieved precedent can postdate the query, by construction rather
+than by an exclusion list.
+
+Reconstructing under the corrected memory, and under the corrected
+preprocessing of Section~\ref{sec:preprocessing}, requires fresh LLM calls
+for every query voyage, which this paper's budget could not extend to the
+full 125-per-corridor test set together with the ablation and
+matched-forecaster experiments of Sections~\ref{sec:maritime-ablations} and
+\ref{sec:design} below. We therefore report TrajRAG's headline maritime
+results on a smaller, still randomly-drawn common test set: 50 Houston and
+10 Los Angeles/Long Beach voyages, sampled from the subset of the original
+125-per-corridor test voyages that postdate each corridor's memory cutoff
+(68 and 67 such voyages were available, respectively). Every other method
+in Table~\ref{tab:extended} and Table~\ref{tab:corridor} -- Kalman, ARIMA,
+LSTM, BiLSTM, Mean-Retrieval, Numeric-kNN and AIS-ACNet -- is rescored on
+this identical 50/10-voyage set for a matched comparison; AIS-ACNet is
+additionally reported on the full 125-voyage set as a robustness check that
+the smaller matched sample is not anomalous (Section~\ref{sec:results}).
+Section~\ref{sec:threats} discusses the resulting loss of statistical power,
+particularly at Los Angeles/Long Beach.
+
+\paragraph{Preprocessing correction}
+\label{sec:preprocessing}
+The 5-minute resampling grid originally interpolated latitude and longitude
+with a time-weighted method that could use an AIS report recorded
+\emph{after} a given grid timestamp, including the single most load-bearing
+point in the whole pipeline: the last point of the verified prefix that
+every method treats as ground truth to reconstruct from. Every other
+resampled field (SOG, COG, heading, \ldots) already used a causal
+last-observation-carried-forward rule; we moved latitude and longitude onto
+the same rule, removing the leak. Rescoring the deterministic classical and
+numeric baselines (Kalman, ARIMA, Numeric-kNN) on the corrected data versus
+the original shows this is not a negligible effect: every one of 12
+method/phase/corridor cells we checked became worse under the correction,
+by 2--40\%, confirming the leak had been making reconstruction look easier
+than it is. All results in this paper use the corrected data.
+
+\begin{table}[t]
+\centering
+\caption{Datasets. The aviation corpus is the one used in the conference
+version \citep{felendler2026trajrag}; the maritime corpus is new.}
+\label{tab:datasets}
+\footnotesize
+\begin{tabular}{p{2.5cm}p{4.3cm}p{4.3cm}}
+\toprule
+ & Aviation & Maritime \\
+\midrule
+Source & FlightRadar24 ADS-B & NOAA Marine Cadastre AIS (public) \citep{noaa2025marinecadastre} \\
+Corridors & Paris$\to$Rome; Barcelona$\to$Munich & Houston Ship Channel; Los Angeles/Long Beach approach \\
+Collection window & 19 Apr--1 Jun 2025; 17 Dec 2025--18 Jan 2026 & 19 Apr--1 Jun 2025 (44 days) \\
+Raw volume & 46,550 messages (Paris$\to$Rome) & 26.2 million position reports \\
+Trajectories & 1,544 flights (931 + 613) & 3,506 voyages (2,408 Houston; 1,098 Los Angeles/Long Beach) \\
+Sampling & $\approx$120\,s (native) & 300\,s (uniform resampling) \\
+Test set & 100 flights, chronologically held out (Paris$\to$Rome) & 50 Houston + 10 Los Angeles/Long Beach vessels, each with $\geq 4$ points per phase, drawn from a 250-vessel (125 per corridor) pool and postdating the retrieval memory's chronological cutoff \\
+Environmental context & Meteomatics & Open-Meteo Marine \citep{openmeteo2025} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Blackout protocol}
+
+We simulate post-detection blackouts on real, uncorrupted trajectories, so
+that the true positions are available as ground truth. Following a
+safety-oriented, attack-agnostic stance, we model every attack (gradual
+drift, velocity manipulation or capture-and-pull-off) the same way: all
+satellite-derived fields after onset are withheld. In aviation, onset times
+are randomised and blackouts last 5--15 steps (10--30\,min)
+\citep{felendler2026trajrag}. In the maritime benchmark, each phase segment
+of $N$ points is split at $\lfloor N/2 \rfloor$. The first half is the
+verified prefix, and the second half is withheld and must be reconstructed.
+This gives mean blackout durations of 37.2, 35.2 and 66.1\,min for
+departure, transit and arrival on the Houston test set. The maritime
+protocol is applied identically to every maritime method, including every
+baseline: no baseline receives any field reported after the onset index.
+Because the two domains use different protocols and sampling intervals,
+absolute errors are compared within a domain, not across domains.
+
+\subsection{Baselines}
+\label{sec:baselines}
+
+\textbf{Classical, recurrent and retrieval-only.} These are a Kalman filter
+(a constant-velocity model that accounts for currents in the maritime case,
+using only prefix data and environmental context), ARIMA fitted to each
+verified prefix, LSTM and BiLSTM networks trained on the non-test voyages of
+each phase (about 1,600--3,300 per phase), and Mean-Retrieval, which
+averages the continuations of the top-$K$ retrieved segments without an
+LLM.
+
+\textbf{Numeric-kNN.} This baseline is a non-parametric retrieval model
+operating on numbers rather than text. It finds the five training prefixes
+of the same phase closest to the test prefix by mean point-wise Haversine
+distance and predicts each withheld step as the coordinate-wise mean of
+their continuations. It isolates the value of textual states combined with
+LLM blending over plain numeric nearest neighbours.
+
+\textbf{AIS-ACNet.} We retrain AIS-ACNet \citep{shin2024aisacnet} from its
+public implementation on our voyages (on the corrected data of
+Section~\ref{sec:preprocessing}), using a chronological 85/15
+train/validation split of the non-test Houston voyages, and evaluate it on
+the common test set with the same blackout boundary. We report it both on
+the full 125-voyage test set and on the 50/10-voyage set TrajRAG is
+evaluated on, to check that the smaller matched sample is not anomalous
+(Section~\ref{sec:results}). AIS-ACNet's
+convolutional receptive field is fixed, so we train one model per phase,
+with the window set near the 95th percentile of the true half-phase length
+(Table~\ref{tab:acnet-config}). Voyages whose true withheld half exceeds the
+window are truncated to it for both the model's output and the scoring mask
+-- 4, 6 and 5 of the 125 test voyages in departure, transit and arrival
+respectively (3--5\% per phase); shorter ones are padded with edge values
+and masked out of the loss and the metric. For the remaining 95--97\% of
+voyages per phase, AIS-ACNet reconstructs exactly the same horizon as
+TrajRAG; for the truncated tail, AIS-ACNet is scored only on the first
+\emph{window} steps of the blackout, not the full one TrajRAG reconstructs.
+
+\begin{table}[t]
+\centering
+\caption{Phase-specific AIS-ACNet configuration. The window is set near the
+95th percentile of the true half-phase length so that most voyages are
+predicted over their full withheld half.}
+\label{tab:acnet-config}
+\footnotesize
+\begin{tabular}{lccc}
+\toprule
+Phase & Window (steps) & Residual blocks & Test voyages scored \\
+\midrule
+Departure & 21 & 7 & 125 \\
+Transit & 15 & 5 & 125 \\
+Arrival & 32 & 11 & 125 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Modern forecasters.} DLinear, PatchTST, iTransformer, Informer,
+Autoformer, FEDformer and TimesNet are trained with the Time-Series-Library
+implementations \citep{wu2023tslib} on eight features per step (latitude,
+longitude, SOG, COG, heading, wave height, 10\,m wind speed and current
+speed). The features are z-scored with training-split statistics.
+Encoder--decoder models receive the tail of the \emph{observed} window as
+their decoder warm-up, so no target value leaks into the input. These
+architectures need fixed input and output lengths. Following the aviation
+harness of the conference paper, we use a small exact-fit window per phase
+(4, 3 and 4 steps for departure, transit and arrival) and include a voyage
+only if its half-phase length matches the window. This retains about 80\%,
+71\% and 77\% of eligible voyages. The forecasters therefore solve an
+easier, shorter-horizon problem on a subset of voyages, and
+Table~\ref{tab:extended} reports them in a separate block.
+
+\subsection{Metrics and statistical testing}
+\label{sec:metrics}
+
+The primary metric is the mean Haversine error (MHE) \citep{zhao2024space}
+over the withheld steps $T$,
+\begin{equation}
+\mathrm{MHE} = \frac{1}{|T|} \sum_{i \in T} d_{\mathrm{hav}}(\hat{y}_i, y_i),
+\label{eq:mhe}
+\end{equation}
+reported per phase. A given absolute error means more for a slow ship than
+for a fast one, so we also normalise MHE by two quantities that are
+independent of the method and computed from ground truth: the mean distance
+travelled during the blackout and the mean blackout duration. Differences
+between TrajRAG and each full-horizon baseline are tested with paired
+two-sided Wilcoxon signed-rank tests \citep{wilcoxon1945individual} on
+per-voyage errors of the same voyages (50 Houston, 10 Los Angeles/Long
+Beach). We report raw $p$-values and note
+which conclusions survive a Bonferroni correction. We additionally report,
+for each comparison, the median paired difference (baseline minus TrajRAG)
+with a 95\% bootstrap confidence interval over 10,000 resamples of voyages,
+and the median, 90th percentile and maximum of the per-voyage error
+distribution for every full-horizon method.
+
+\subsection{Implementation}
+\label{sec:implementation}
+
+Both instantiations use \texttt{text-embedding-3-large} as $g$ and FAISS
+inner-product indices \citep{johnson2021billion}. The aviation adapter uses
+\texttt{gpt-5.1} with $K=5$, the configuration selected in the conference
+study. The maritime adapter uses \texttt{gpt-4.1} with $K=6$, fixed before
+any maritime test-set result was observed; neither backbone was fine-tuned,
+and no maritime hyperparameter was tuned on the test set. Per their
+respective model documentation, \texttt{gpt-4.1}'s training data cutoff is
+June 1, 2024 and \texttt{gpt-5.1}'s is September 30, 2024 -- both postdate
+the Houston and LA/Long Beach voyage windows used in this study (19
+April--1 June 2025 collection, but reflecting vessel traffic and port
+operations that are not novel information the models could have memorised
+verbatim). AIS-ACNet and the
+seven forecasters are trained with Adam and early stopping (AIS-ACNet:
+masked mean-squared error on position and auxiliary SOG/COG, patience 20, at
+most 150 epochs; forecasters: mean-squared error, learning rate $10^{-3}$,
+batch size 32, patience 15, at most 60 epochs). LLM decoding uses
+temperature 0 for position generation and temperature 0.3 for the one-off
+textual summary at blackout onset, in both domains.

@@ -1,0 +1,14 @@
+{
+  "model": "Informer",
+  "phase": "arrival",
+  "window": 4,
+  "n_params": 522248,
+  "train_size": 1482,
+  "val_size": 262,
+  "test_size": 99,
+  "ade_km": 1.9904289284485812,
+  "fde_km": 2.0244008839857366,
+  "ade_nm": 1.074745641710897,
+  "fde_nm": 1.0930890302298792,
+  "best_val_loss": 0.11730175092816353
+}

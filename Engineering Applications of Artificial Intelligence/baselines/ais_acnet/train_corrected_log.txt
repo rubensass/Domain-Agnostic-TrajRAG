@@ -1,0 +1,103 @@
+[HOU-SHIPCHANNEL/departure] train=1876 val=332 test=125
+  early stop at epoch 34
+  trained in 511s, best_val=5.7834
+[HOU-SHIPCHANNEL/departure] {'full125': {'n': 125, 'mean_km': 1.6994}, 'matched': {'n': 50, 'mean_km': 1.8017}, 'item4': {'n': 63, 'mean_km': 1.642}}
+[HOU-SHIPCHANNEL/transit] train=1399 val=247 test=125
+  trained in 489s, best_val=3.5984
+[HOU-SHIPCHANNEL/transit] {'full125': {'n': 125, 'mean_km': 1.6141}, 'matched': {'n': 50, 'mean_km': 1.768}, 'item4': {'n': 63, 'mean_km': 1.3179}}
+[HOU-SHIPCHANNEL/arrival] train=1779 val=314 test=125
+  early stop at epoch 35
+  trained in 843s, best_val=21.8208
+[HOU-SHIPCHANNEL/arrival] {'full125': {'n': 125, 'mean_km': 2.1181}, 'matched': {'n': 50, 'mean_km': 2.0979}, 'item4': {'n': 53, 'mean_km': 1.7409}}
+[LA-LONGBEACH/departure] train=736 val=130 test=125
+  early stop at epoch 37
+  trained in 105s, best_val=2.3458
+[LA-LONGBEACH/departure] {'full125': {'n': 125, 'mean_km': 1.1548}, 'matched': {'n': 10, 'mean_km': 0.9799}}
+[LA-LONGBEACH/transit] train=489 val=87 test=125
+  early stop at epoch 25
+  trained in 46s, best_val=2.2348
+[LA-LONGBEACH/transit] {'full125': {'n': 125, 'mean_km': 1.5646}, 'matched': {'n': 10, 'mean_km': 2.0653}}
+[LA-LONGBEACH/arrival] train=434 val=77 test=125
+  early stop at epoch 24
+  trained in 86s, best_val=4.1654
+[LA-LONGBEACH/arrival] {'full125': {'n': 125, 'mean_km': 1.2874}, 'matched': {'n': 10, 'mean_km': 1.2576}}
+
+Done.
+{
+  "HOU-SHIPCHANNEL": {
+    "departure": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.6994
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 1.8017
+      },
+      "item4": {
+        "n": 63,
+        "mean_km": 1.642
+      }
+    },
+    "transit": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.6141
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 1.768
+      },
+      "item4": {
+        "n": 63,
+        "mean_km": 1.3179
+      }
+    },
+    "arrival": {
+      "full125": {
+        "n": 125,
+        "mean_km": 2.1181
+      },
+      "matched": {
+        "n": 50,
+        "mean_km": 2.0979
+      },
+      "item4": {
+        "n": 53,
+        "mean_km": 1.7409
+      }
+    }
+  },
+  "LA-LONGBEACH": {
+    "departure": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.1548
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 0.9799
+      }
+    },
+    "transit": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.5646
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 2.0653
+      }
+    },
+    "arrival": {
+      "full125": {
+        "n": 125,
+        "mean_km": 1.2874
+      },
+      "matched": {
+        "n": 10,
+        "mean_km": 1.2576
+      }
+    }
+  }
+}

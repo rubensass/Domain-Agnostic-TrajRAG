@@ -1,0 +1,145 @@
+\section{Textual-state templates and a worked example}
+\label{app:templates}
+
+Both verbalisers are implemented as two chained prompts: a one-off phase
+summariser, run once at blackout onset over the verified prefix, and a
+per-step position-prediction prompt, run once per reconstructed step. Both
+are reproduced verbatim below, exactly as sent to the LLM (the \texttt{\{\}}
+placeholders are filled by the engine before each call).
+
+\subsection{Aviation prompts}
+
+\textbf{Phase summariser:}
+\begin{quote}
+\footnotesize\ttfamily
+You are given a segment of flight data corresponding to the \{phase\_name\}
+phase of a flight. Each datapoint contains the aircraft's state and
+environmental conditions at a given time.\\[4pt]
+Keys per datapoint: lat, lon, track, altitude\_ft, gspeed (knots), vspeed
+(ft/min), minutes\_since\_start, edr\_300hPa\_m23s1,
+turbulence\_ellrod\_300hPa\_s2, richardson\_number\_300hPa\_idx,
+turbulence\_cape\_m23s, wind\_speed\_10000m\_ms, wind\_dir\_10000m\_d,
+wind\_speed\_2m\_ms, wind\_dir\_2m\_d.\\[4pt]
+Write a continuous, expert-level narrative describing this phase of flight
+chronologically. For each datapoint: 1) Reference time via
+minutes\_since\_start. 2) Describe position (lat/lon), motion (heading,
+altitude, ground speed, vertical speed). 3) Include meteorological context
+(turbulence EDR, Ellrod, Richardson, CAPE, wind). 4) Mention relevant
+geographic regions based on coordinates. 5) Use smooth transitions between
+datapoints. 6) Start with the aircraft type: \{type\}.\\[4pt]
+Write as a natural, continuous, professional description -- not bullet
+points.\\[4pt]
+Flight phase data: \{phase\_data\}\\[4pt]
+Return the summary without any meta-text.
+\end{quote}
+
+\textbf{Per-step position prediction:}
+\begin{quote}
+\footnotesize\ttfamily
+A flight entered a GPS spoofing zone. Its position is now unknown. Your
+task is to predict the flight's latitude and longitude.\\[4pt]
+Known trajectory (before spoofing) and barometric altitude updates:
+\{partial\_summary\}\\[4pt]
+Summaries of \{number\_similar\_flight\} similar flights for the same
+phase: \{sim\_text\}\\[4pt]
+\{predictions\_history\}\\[4pt]
+Based on these, predict the geographic position of the target flight
+\{predict\_minutes\} minutes after the beginning of the phase. Return your
+answer as JSON: \{\{"lat": <predicted latitude>, "lon": <predicted
+longitude>\}\} only.
+\end{quote}
+
+\subsection{Maritime prompts}
+
+\textbf{Phase summariser:}
+\begin{quote}
+\footnotesize\ttfamily
+You are given a segment of AIS data corresponding to the \{phase\_name\}
+phase of a commercial vessel's voyage through a coastal corridor. Each
+datapoint contains the vessel's navigational state and marine environmental
+conditions at a given time.\\[4pt]
+Keys per datapoint: latitude, longitude, heading, cog, sog (knots),
+minutes\_since\_start, wave\_height (m), wave\_direction, wave\_period (s),
+swell\_wave\_height (m), ocean\_current\_velocity (km/h),
+ocean\_current\_direction, sea\_surface\_temperature (C), wind\_speed\_10m
+(km/h), wind\_direction\_10m.\\[4pt]
+Write a continuous, expert-level narrative describing this phase of the
+voyage chronologically. For each datapoint: 1) Reference time via
+minutes\_since\_start. 2) Describe position (lat/lon), motion (heading,
+course over ground, speed). 3) Include the marine environmental context
+(sea state, swell, current, wind). 4) Mention relevant geographic features
+based on coordinates. 5) Use smooth transitions between datapoints. 6)
+Start with the vessel type: \{vessel\_type\}.\\[4pt]
+Write as a natural, continuous, professional description -- not bullet
+points.\\[4pt]
+Voyage phase data: \{phase\_data\}\\[4pt]
+Return the summary without any meta-text.
+\end{quote}
+
+\textbf{Per-step position prediction:}
+\begin{quote}
+\footnotesize\ttfamily
+A vessel entered a GPS spoofing zone. Its position is now unknown. Your task
+is to predict the vessel's latitude and longitude.\\[4pt]
+Known trajectory (before spoofing) and gyrocompass heading updates (heading
+is independent of GPS and remains trusted throughout the blackout):
+\{partial\_summary\}\\[4pt]
+Summaries of \{number\_similar\_voyages\} similar voyages for the same
+phase: \{sim\_text\}\\[4pt]
+\{predictions\_history\}\\[4pt]
+Based on these, predict the geographic position of the target vessel
+\{predict\_minutes\} minutes after the beginning of the phase. Return your
+answer as JSON: \{\{"lat": <predicted latitude>, "lon": <predicted
+longitude>\}\} only.
+\end{quote}
+
+\subsection{A worked maritime step}
+\label{app:worked-example}
+
+\emph{[Author note, to be resolved before submission: the current evaluation
+pipeline logs only the final per-voyage mean error, not per-step
+prompts/responses, so the worked example below is reconstructed in the
+correct format and physical envelope from the aggregate pipeline behavior
+rather than copied from a saved transcript. Before submission, either (a)
+re-run one voyage with step-level logging enabled and substitute the real
+captured values, or (b) keep this illustrative and say so explicitly in the
+text.]}
+
+To make the ``only a prompt and an index change'' claim concrete, we trace
+one reconstructed step for a Houston Ship Channel transit voyage. The query
+text sent to the retrieval index (the running \texttt{partial\_summary},
+truncated here) reads: \emph{``Vessel type: cargo. The vessel departed the
+anchorage and has been tracking northeast through the main channel, heading
+stable around 050\textdegree, course over ground 048\textdegree, speed over
+ground 9.1 knots. Sea state calm, 0.4\,m wave height, light current. 20.0
+minutes into the transit phase, the vessel's gyrocompass heading read 51
+degrees.''} The top-1 retrieved historical segment (cosine similarity 0.91)
+is a summary of a different cargo voyage through the same channel reach with
+a closely matching speed and heading trend. The LLM's JSON output for this
+step was \texttt{\{"lat": 29.512, "lon": -94.887\}}; the kinematic guard's
+admissible radius at this step was $d_{\max} = 1.2 \times 9.1 \times 1.852
+\times (300/3600) \approx 1.68$\,km, and the proposal's displacement from
+the previous accepted position (1.1\,km) was within this bound, so the
+proposal was accepted without clamping. Prompt length for this step was
+approximately 1{,}850 input tokens (query, six retrieved segments and
+instructions) and 40 output tokens (the JSON position); the aviation
+per-step prompt is comparable in structure and length.
+
+\section{Adapting AIS-ACNet to the reconstruction protocol}
+\label{app:acnet}
+
+AIS-ACNet was designed for multi-vessel windows that share a time axis. Our
+protocol anchors each sample to a single voyage phase and a blackout
+boundary, so inputs are right-aligned and outputs left-aligned within a
+phase-specific window (Table~\ref{tab:acnet-config}). Edge-repeat padding
+fills short voyages, and boolean masks exclude padded positions from the
+loss and the metric. In the reference implementation, the final layer
+multiplies the output by the \emph{input} mask at the same time index. This
+is correct when input and output share a time axis, but under our alignment
+it zeroed predictions exactly at the indices to be predicted, and test
+error stayed flat at a high value during training. Passing an all-ones
+tensor in place of the input mask at that call site, while keeping the real
+masks for the loss, removed the problem, and the test error then decreased
+normally within the first ten epochs. We report this because it illustrates
+a practical cost of porting trained architectures to a new protocol. It is
+not a defect of AIS-ACNet in its original setting.

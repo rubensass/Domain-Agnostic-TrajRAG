@@ -1,0 +1,233 @@
+\section{Domain-agnostic reconstruction framework}
+\label{sec:framework}
+
+\subsection{Problem formulation}
+\label{sec:problem}
+
+Let $X = \{x_0, \ldots, x_n\}$ be a time-ordered trajectory of an aircraft or
+a vessel. Each state $x_i = (y_i, k_i, a_i, \mathrm{time}_i)$ contains a
+horizontal position $y_i = (\phi_i, \lambda_i)$, kinematic fields $k_i$ (for
+example ground speed and track, or SOG and COG) and the reading $a_i$ of a
+trusted auxiliary signal. The trusted signal must be \emph{physically}
+independent of the satellite receiver, not merely reported in a separate
+field. An external detector raises an alarm at index $t$. From then on,
+every satellite-derived field ($y_i$ and the satellite-derived part of
+$k_i$, for $i > t$) is withheld from the reconstruction, while $a_i$ remains
+available. The task is to produce
+\begin{equation}
+\hat{Y}_{t+1:r} = \{\hat{y}_i\}_{i=t+1}^{r}
+\label{eq:task}
+\end{equation}
+until trusted reporting resumes, or the trip ends, at index $r$. The
+available information is the verified prefix $X_{0:t}$, the trusted signal
+$a_{0:r}$, environmental context obtained independently of the asset, and
+historical trajectories of the same domain. This is not denoising, because
+corrupted observations are dropped rather than filtered. It is not
+interpolation either, because the end state is unknown. We evaluate it as
+forward-only reconstruction against the true, uncorrupted positions.
+
+\subsection{Shared engine and domain adapter}
+
+We factor the method into a shared engine and a domain adapter. The
+\emph{engine} comprises a frozen text-embedding model $g$, a frozen LLM $f$,
+an inner-product vector index, the iterative propose--validate--update loop
+of Algorithm~\ref{alg:reconstruction}, the feasibility guard and a fixed
+output schema (one latitude/longitude pair per step). No component of the
+engine is trained, fine-tuned or adjusted for a domain. A domain adapter is
+the tuple
+\begin{equation}
+\mathcal{D} = \langle \mathcal{S}, a, \mathcal{P}, \pi, \tau, \mathcal{E}, \mathcal{M}, \kappa \rangle,
+\label{eq:adapter}
+\end{equation}
+whose elements are:
+\begin{itemize}
+\item $\mathcal{S}$, the \emph{state schema}, which lists the fields of a
+surveillance report and marks each as satellite-derived (untrusted after
+onset) or trusted;
+\item $a$, the \emph{trusted auxiliary signal};
+\item $\mathcal{P}$ and $\pi$, the \emph{phase taxonomy} and a
+phase-assignment rule that uses only trusted information;
+\item $\tau$, the \emph{verbaliser}, a prompt template that turns a
+trajectory segment, the trusted signal and the environmental context into a
+short textual state description;
+\item $\mathcal{E}$, the \emph{environmental context provider}, queried at
+the last accepted (trusted or reconstructed) position and time;
+\item $\mathcal{M} = \{\mathcal{M}_p\}_{p \in \mathcal{P}}$, the
+\emph{phase-indexed memory}, built by applying $\tau$ and $g$ to historical
+trajectories of the domain;
+\item $\kappa = (\Delta t, \{\alpha_p\}, \mathrm{SPEEDRULE})$, the
+\emph{kinematic constants}: the sampling interval, per-phase tolerance
+factors and the rule that updates the reference speed during a blackout.
+\end{itemize}
+Three of these elements are semantic choices that a domain expert makes
+once: the trusted signal, the phase taxonomy and the vocabulary of the
+verbaliser. The remaining elements are data artefacts produced from the
+domain corpus by procedures that are identical in both domains
+(Sections~\ref{sec:offline-memory} and \ref{sec:calibration}). Porting the
+method to a new domain therefore requires a prompt template, an index and a
+calibration run. It requires no training run.
+
+\begin{algorithm}[t]
+\caption{Online reconstruction with the shared engine and a domain adapter $\mathcal{D}$}
+\label{alg:reconstruction}
+\begin{algorithmic}[1]
+\Require verified prefix $X_{0:t}$; trusted signal $a_{0:r}$; adapter
+$\mathcal{D} = \langle \mathcal{S}, a, \mathcal{P}, \pi, \tau, \mathcal{E}, \mathcal{M}, \kappa \rangle$
+with $\kappa = (\Delta t, \{\alpha_p\}, \mathrm{SPEEDRULE})$; frozen LLM $f$;
+frozen encoder $g$; retrieval size $K$
+\Ensure reconstructed positions $\hat{Y}_{t+1:r}$
+\State $p \gets \pi(X_{0:t}, a_{0:t})$ \Comment{phase from trusted information only}
+\State $(\hat{y}_t, v) \gets (y_t, v_t)$ \Comment{last verified position and speed}
+\State $q \gets \tau(X_{0:t}, a_{0:t}, (\hat{y}_t, t))$ \Comment{textual state of the prefix}
+\For{$i = t+1, \ldots, r$}
+  \State $C \gets \mathrm{TopK}(g(q), \mathcal{M}_p, K)$ \Comment{cosine similarity}
+  \State $\tilde{y}_i \gets f(q, C, a_i, (\hat{y}_{i-1}, i))$ \Comment{fixed schema: latitude, longitude}
+  \State $d_{\max} \gets \alpha_p \, v \, \Delta t$
+  \If{$d_{\mathrm{hav}}(\tilde{y}_i, \hat{y}_{i-1}) > d_{\max}$}
+    \State $\tilde{y}_i \gets \mathrm{Project}(\tilde{y}_i, \hat{y}_{i-1}, d_{\max})$; raise low-confidence flag
+  \EndIf
+  \State $\hat{y}_i \gets \tilde{y}_i$
+  \State $v \gets \mathrm{SPEEDRULE}(v, \hat{y}_{i-1}, \hat{y}_i, i)$ \Comment{domain-specific (Section~\ref{sec:instantiation})}
+  \State $q \gets \tau(X_{0:t} \cup \hat{Y}_{t+1:i}, a_{0:i}, (\hat{y}_i, i))$ \Comment{feedback: re-query from reconstructed prefix}
+\EndFor
+\State \Return $\hat{Y}_{t+1:r} = \{\hat{y}_i\}_{i=t+1}^{r}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Offline memory construction}
+\label{sec:offline-memory}
+
+Historical trajectories are cleaned (duplicates removed, timestamps made
+monotonic), resampled to the adapter's $\Delta t$ when the native sampling
+is irregular, and segmented into phases. Each segment is verbalised by
+$\tau$ into a description of its spatial evolution, kinematic trend, phase,
+elapsed time in phase and aligned environmental context. Timestamps are
+expressed as time from the start of the phase so that segments recorded on
+different days are comparable. Descriptions are embedded by $g$,
+L2-normalised and stored in a separate inner-product index per phase (and,
+in the maritime adapter, per corridor). Each index entry keeps a pointer to
+the numeric continuation of its segment, which is shown to the LLM at
+inference time. Separating indices by phase prevents incompatible motion
+regimes, such as berthing and open-channel transit, from being retrieved
+together. New data are added by appending entries, without re-fitting any
+model.
+
+\subsection{Online retrieval-conditioned reconstruction}
+
+At onset, the phase is determined by $\pi$ from trusted information, and the
+verified prefix is verbalised into a query. At each step the engine
+retrieves the $K$ most similar segments from $\mathcal{M}_p$ by cosine
+similarity. The LLM then receives the query, the retrieved segments with
+their continuations, the trusted reading $a_i$ and the environmental
+context, and returns the next position in the fixed schema. After the
+position passes the guard, the query is rebuilt from the extended (verified
++ reconstructed) prefix, so the retrieved neighbours evolve as the
+reconstruction progresses (Algorithm~\ref{alg:reconstruction}). The LLM thus
+acts as a retrieval-conditioned \emph{proposal generator}: it adapts and
+blends the retrieved precedents to the current context, but it never has the
+final word on feasibility.
+
+\subsection{Kinematic feasibility guard and its calibration procedure}
+\label{sec:calibration}
+
+Each proposal $\tilde{y}_i$ must lie within a disc centred at the last
+accepted position, with radius
+\begin{equation}
+d_{\max} = \alpha_p \, v \, \Delta t,
+\label{eq:guard}
+\end{equation}
+where $v$ is the current reference speed and $\alpha_p$ is a phase
+tolerance. Proposals outside the disc are projected onto its boundary along
+the bearing from the previous position, and the step is flagged as low
+confidence. The guard therefore turns any LLM error, including a
+hallucinated position, into a bounded displacement.
+
+The tolerance is not tuned on reconstruction accuracy. It is set by a fixed,
+accuracy-independent \emph{calibration procedure}. On the domain's training
+trajectories we compute the step displacement ratio
+\begin{equation}
+\rho_i = \frac{d_{\mathrm{hav}}(y_{i-1}, y_i)}{v_{i-1} \, \Delta t},
+\label{eq:rho}
+\end{equation}
+excluding steps with near-zero reference speed, and we set $\alpha$ to a
+high quantile of $\rho$ (the 99th percentile in this study). For aircraft
+this procedure gives $Q_{0.99}(\rho) = 1.18$ and hence $\alpha = 1.2$
+\citep{felendler2026trajrag}. Section~\ref{sec:maritime-calibration} applies
+the same procedure to vessels and shows why the procedure, rather than the
+constant, is what transfers between domains.
+
+\subsection{Real-time dual-domain system architecture}
+\label{sec:architecture}
+
+Fig.~\ref{fig:architecture} shows how the framework is deployed as one
+service for both surveillance domains. ADS-B and AIS streams feed an
+external spoofing detector, which this paper treats as a given interface.
+When an alarm is raised for an asset, a trust gate stops forwarding that
+asset's satellite-derived fields. The message type selects the domain
+adapter. The shared engine then produces one reconstructed position per
+reporting interval until the detector clears the alarm or the trip ends.
+Each reconstructed position carries a confidence flag that records whether
+the guard had to clamp the proposal, so a controller or VTS operator sees
+the reconstruction together with an explicit indication of how far it
+relies on the physical bound rather than on precedent. Because adapters
+contain only prompts, indices and constants, a new domain or corridor is
+added by deploying a new adapter. The engine, and any accreditation
+evidence gathered for it, stays unchanged. Memories are refreshed by
+appending completed trips, for example once a day.
+Section~\ref{sec:latency} checks the latency of this loop against the
+reporting interval of each channel.
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  node distance=10mm and 8mm,
+  box/.style={draw, rounded corners, align=center, minimum height=9mm, font=\footnotesize, inner sep=3pt},
+  adapter/.style={box, fill=orange!15},
+  engine/.style={box, fill=blue!10},
+  io/.style={box, fill=gray!10},
+  >=Stealth
+]
+\node[io] (adsb) {ADS-B stream\\(aircraft)};
+\node[io, below=6mm of adsb] (ais) {AIS stream\\(vessels)};
+\node[io, right=14mm of adsb, yshift=-6mm] (detector) {External\\spoofing detector};
+\node[io, right=10mm of detector] (gate) {Trust gate: drop\\satellite fields\\after onset};
+\node[adapter, right=10mm of gate, yshift=7mm] (adaptA) {Aviation adapter\\$\tau$, baro.\ alt., $\kappa$};
+\node[adapter, below=4mm of adaptA] (adaptM) {Maritime adapter\\$\tau$, gyro heading, $\kappa$};
+\node[adapter, right=8mm of adaptA, yshift=-7mm, minimum width=24mm] (memory) {Phase-indexed\\memory $\mathcal{M}$};
+\node[engine, right=10mm of memory, minimum width=26mm] (retrieval) {Phase-aware retrieval:\\returns top-$K$ precedents};
+\node[engine, right=4mm of retrieval] (llm) {Frozen LLM\\next-position proposal};
+\node[engine, right=4mm of llm] (guard) {Kinematic\\feasibility guard};
+\node[io, right=10mm of guard] (out) {Reconstructed track\\+ confidence flag\\$\to$ ATC / VTS};
+\draw[->] (adsb) -- (detector);
+\draw[->] (ais) -- (detector);
+\draw[->] (detector) -- node[above,font=\tiny]{alarm} (gate);
+\draw[->] (gate) -- node[above,font=\tiny]{ADS-B} (adaptA);
+\draw[->] (gate) -- node[below,font=\tiny]{AIS} (adaptM);
+\draw[->] (adaptA) -- (memory);
+\draw[->] (adaptM) -- (memory);
+\draw[->] (memory) -- (retrieval);
+\draw[->] (retrieval) -- (llm);
+\draw[->] (llm) -- (guard);
+\draw[->] (guard) -- (out);
+\draw[->] (guard.south) to[out=270,in=270,looseness=1.3] node[below,font=\tiny]{feedback: re-query, extended prefix} (retrieval.south);
+\draw[->, dashed] (gate.north) to[out=90,in=90,looseness=0.5] node[above,font=\tiny]{live trusted reading $a_i$, every step} (llm.north);
+\end{tikzpicture}%
+}
+\caption{Architecture of the real-time, domain-agnostic system. Both
+surveillance streams pass through the same detector interface and trust
+gate. A domain adapter (orange) supplies the domain-specific parts: the
+textual-state prompt template, the trusted non-satellite signal, the
+kinematic constants, and the phase-indexed memory $\mathcal{M}$ built from
+that domain's history -- shown as a separate node from the shared engine's
+retrieval step (blue), which searches $\mathcal{M}$ and returns only the
+top-$K$ precedents for the current query, not the memory itself. The dashed
+arrow shows the trusted reading $a_i$ (heading or barometric altitude)
+entering the loop live at every step, independently of the one-shot
+adapter routing above it. The engine asks a frozen large language model for
+the next position and accepts it only inside the kinematic envelope; the
+accepted position extends the verified prefix, and the query is rebuilt
+from it before the next retrieval. ATC: air traffic control; VTS: vessel
+traffic service.}
+\label{fig:architecture}
+\end{figure}

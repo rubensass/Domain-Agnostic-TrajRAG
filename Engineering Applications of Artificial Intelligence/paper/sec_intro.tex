@@ -1,0 +1,116 @@
+\section{Introduction}
+\label{sec:intro}
+
+Aircraft and ships are tracked by cooperative surveillance systems that
+rebroadcast positions computed by an on-board Global Navigation Satellite
+System (GNSS) receiver. In aviation the carrier is Automatic Dependent
+Surveillance--Broadcast (ADS-B) \citep{faa2007adsb,khan2025adsbsurvey}; at sea
+it is the Automatic Identification System (AIS) \citep{itu2014ais}. Neither
+channel authenticates the position it carries, so a receiver that is jammed
+or spoofed passes the corrupted position directly to air traffic control
+(ATC) and vessel traffic services (VTS). Interference has become a routine
+operational condition rather than a rare event. Aviation monitoring reports a
+sustained rise in GNSS anomalies in and around conflict zones
+\citep{aireon2025,felux2025navigating,ieropoulos2024impact,lo2025observations}.
+Maritime trackers reported roughly 700 jamming and spoofing events per day
+across the global fleet in 2024 \citep{windward2025}. In the Baltic Sea, the
+number of affected vessels grew from about 1,225 in the first quarter of 2025
+to more than 5,800 in the second \citep{gpspatron2025}. A single two-week
+window in mid-2025 recorded more than 12,000 spoofing incidents involving
+over 3,000 vessels \citep{kpler2025}, and sustained spoofing has been
+documented in the Persian Gulf \citep{skuld2025,maritimeexec2025}.
+
+Detecting interference is necessary but not sufficient. Once a detector
+flags an aircraft or a vessel, its satellite-derived positions must be
+discarded, yet the operator still has to deconflict traffic, enforce
+separation and verify that the asset stays clear of restricted areas. In a
+narrow ship channel or a busy terminal area, losing a reliable track for
+even half an hour is operationally significant. The engineering problem is
+therefore \emph{post-detection reconstruction}: estimating where the asset is
+from its last trusted state, from signals that do not depend on satellites,
+and from what similar assets have done before.
+
+Today this gap is usually filled by trajectory predictors used as
+extrapolators. These predictors are almost always domain-specific. Aircraft
+predictors are trained on flights \citep{pang2019lstm,kwak2025evolution}, and
+vessel predictors are trained on AIS voyages
+\citep{li2023ship,shin2024aisacnet,nguyen2024transformer}. Each must be
+rebuilt, retuned and revalidated when it is moved to a new region, a new
+traffic mix or a new transport mode. For an organisation that operates both
+airspace and coastal surveillance, or for a vendor that supplies both, this
+means maintaining two unrelated model families for what is essentially the
+same task.
+
+In the conference version of this work \citep{felendler2026trajrag} we
+introduced TrajRAG for aircraft. TrajRAG converts trajectory segments into
+textual state descriptions and stores them in phase-specific vector indices.
+During a blackout it retrieves phase-consistent historical segments and lets
+a large language model (LLM) propose the next position, which is accepted
+only inside a kinematic feasibility envelope. That study was limited to
+aviation: it did not establish whether the design is specific to aircraft
+dynamics and ADS-B, or whether it is a reusable reconstruction method. This
+paper answers that question. Our thesis is that \emph{nothing in the
+reconstruction engine needs to be learned per domain}: moving to a new
+transport mode should require only a new prompt template, a new retrieval
+index and a small set of physically motivated constants, all derived from
+domain data by fixed procedures.
+
+We test this thesis on shipping, which differs from aviation in almost
+every respect that matters to a predictor. Vessels are an order of
+magnitude slower. AIS is sampled irregularly. Phase dynamics are dominated
+by berthing manoeuvres rather than altitude changes, the environmental
+drivers are currents and waves rather than winds aloft, and the
+GNSS-independent signal available on board is different. If the same
+engine, with its LLM frozen and no maritime gradient update, competes with
+dedicated maritime models, the result is evidence that retrieval and
+prompting can replace retraining in this class of engineering problem.
+
+\paragraph{Contributions} The contributions of this paper are:
+\begin{enumerate}
+\item \textbf{A domain-agnostic formulation (AI contribution).} We separate
+post-detection reconstruction into a shared engine (retrieval, frozen-LLM
+proposal, feasibility guard and feedback loop) and a domain adapter of eight
+elements. We specify the adapter formally and show that it is the only part
+that changes between aviation and shipping (Section~\ref{sec:framework}).
+\item \textbf{A maritime instantiation built without training.} We
+construct the maritime adapter (AIS state schema, gyrocompass heading as the
+trusted signal, departure/transit/arrival phases, marine environmental
+context and a voyage prompt template), together with a new public-data
+corpus of 3,506 voyages from 26.2 million AIS reports in two United States
+port corridors (Sections~\ref{sec:instantiation} and
+\ref{sec:data}).
+\item \textbf{A rigorous maritime benchmark.} We compare against fourteen
+baselines: classical, recurrent, retrieval-only, seven modern forecasters and
+AIS-ACNet, a trained ship-specific network published in this journal
+\citep{shin2024aisacnet}. All are run on a common held-out test set with
+paired significance tests and distance- and time-normalised errors
+(Section~\ref{sec:results}).
+\item \textbf{A transferable calibration procedure for the feasibility
+guard.} We show that the procedure used to calibrate the guard transfers
+across domains, while the constant it produces does not. Vessel dynamics
+give a phase-dependent displacement-ratio distribution with no counterpart
+in aviation (Section~\ref{sec:calibration}).
+\item \textbf{A real-time dual-domain system design.} We describe how one
+deployment serves ATC and VTS, and we show that the reconstruction latency
+fits inside the reporting interval of both surveillance channels
+(Sections~\ref{sec:architecture} and \ref{sec:latency}).
+\end{enumerate}
+
+\paragraph{Relation to the conference version} The conference paper
+\citep{felendler2026trajrag} covers aviation only. The domain-adapter
+formulation, the maritime instantiation and corpus, the full maritime
+evaluation (fourteen baselines, normalised errors, significance tests and
+corridor analysis), the cross-domain calibration analysis and the
+dual-domain system architecture are new. Aviation results are summarised in
+Section~\ref{sec:aviation-reference} only as the reference point for the
+cross-domain comparison; we do not repeat the aviation ablations, backbone
+study or real-world case studies, and refer the reader to the conference
+paper for them.
+
+The rest of the paper is organised as follows. Section~\ref{sec:related}
+reviews related work. Section~\ref{sec:framework} presents the
+domain-agnostic framework and the system architecture. Section~\ref{sec:instantiation}
+describes the two instantiations. Section~\ref{sec:design} details the
+experimental design, and Section~\ref{sec:results} reports the results.
+Section~\ref{sec:discussion} discusses implications and threats to validity,
+and Section~\ref{sec:conclusion} concludes.

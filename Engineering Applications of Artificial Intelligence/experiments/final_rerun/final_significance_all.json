@@ -1,0 +1,447 @@
+{
+  "HOU-SHIPCHANNEL": {
+    "departure": {
+      "Kalman": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 3.164,
+        "median_diff": 0.859,
+        "ci": [
+          0.291,
+          1.422
+        ],
+        "p": 9.468707561843814e-05
+      },
+      "ARIMA": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 3.638,
+        "median_diff": 0.992,
+        "ci": [
+          0.528,
+          2.069
+        ],
+        "p": 0.00011903464815610221
+      },
+      "LSTM": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 10.435,
+        "median_diff": 9.115,
+        "ci": [
+          5.313,
+          10.573
+        ],
+        "p": 8.842704346534447e-12
+      },
+      "BiLSTM": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 10.025,
+        "median_diff": 7.918,
+        "ci": [
+          6.957,
+          9.799
+        ],
+        "p": 1.1368683772161603e-12
+      },
+      "Numeric-kNN": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 5.534,
+        "median_diff": 2.353,
+        "ci": [
+          1.662,
+          3.809
+        ],
+        "p": 7.518488965629899e-06
+      },
+      "AIS-ACNet": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 1.802,
+        "median_diff": 0.114,
+        "ci": [
+          -0.35,
+          0.295
+        ],
+        "p": 0.766732668436843
+      },
+      "Mean-Retrieval": {
+        "n": 50,
+        "trajrag_mean": 2.185,
+        "baseline_mean": 13.892,
+        "median_diff": 6.12,
+        "ci": [
+          4.11,
+          11.44
+        ],
+        "p": 5.329070518200751e-15
+      }
+    },
+    "transit": {
+      "Kalman": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 2.614,
+        "median_diff": 0.43,
+        "ci": [
+          0.157,
+          0.574
+        ],
+        "p": 0.00029800364072762875
+      },
+      "ARIMA": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 3.78,
+        "median_diff": 1.432,
+        "ci": [
+          1.022,
+          2.293
+        ],
+        "p": 9.051156624195755e-08
+      },
+      "LSTM": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 7.985,
+        "median_diff": 5.108,
+        "ci": [
+          4.116,
+          7.401
+        ],
+        "p": 3.375077994860476e-14
+      },
+      "BiLSTM": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 14.104,
+        "median_diff": 12.852,
+        "ci": [
+          9.806,
+          15.022
+        ],
+        "p": 1.2434497875801753e-14
+      },
+      "Numeric-kNN": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 3.928,
+        "median_diff": 0.913,
+        "ci": [
+          0.542,
+          1.637
+        ],
+        "p": 0.0008156048825487261
+      },
+      "AIS-ACNet": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 1.66,
+        "median_diff": 0.069,
+        "ci": [
+          -0.308,
+          0.233
+        ],
+        "p": 0.559104623193516
+      },
+      "Mean-Retrieval": {
+        "n": 50,
+        "trajrag_mean": 1.947,
+        "baseline_mean": 8.758,
+        "median_diff": 5.205,
+        "ci": [
+          2.72,
+          7.81
+        ],
+        "p": 8.008242957657785e-10
+      }
+    },
+    "arrival": {
+      "Kalman": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 4.229,
+        "median_diff": 1.315,
+        "ci": [
+          0.663,
+          3.623
+        ],
+        "p": 1.0206946399193839e-10
+      },
+      "ARIMA": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 2.242,
+        "median_diff": 0.38,
+        "ci": [
+          0.113,
+          0.814
+        ],
+        "p": 0.00032407658280853013
+      },
+      "LSTM": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 6.415,
+        "median_diff": 4.281,
+        "ci": [
+          2.848,
+          6.034
+        ],
+        "p": 1.5448975432263978e-11
+      },
+      "BiLSTM": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 16.427,
+        "median_diff": 5.331,
+        "ci": [
+          2.397,
+          8.26
+        ],
+        "p": 8.842704346534447e-12
+      },
+      "Numeric-kNN": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 3.171,
+        "median_diff": 0.301,
+        "ci": [
+          0.069,
+          0.874
+        ],
+        "p": 0.006525205201144857
+      },
+      "AIS-ACNet": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 1.181,
+        "median_diff": 0.026,
+        "ci": [
+          -0.374,
+          0.38
+        ],
+        "p": 0.4963885938865378
+      },
+      "Mean-Retrieval": {
+        "n": 50,
+        "trajrag_mean": 1.496,
+        "baseline_mean": 7.028,
+        "median_diff": 4.125,
+        "ci": [
+          3.335,
+          6.97
+        ],
+        "p": 3.0854181432005134e-09
+      }
+    }
+  },
+  "LA-LONGBEACH": {
+    "departure": {
+      "Kalman": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 1.199,
+        "median_diff": 0.201,
+        "ci": [
+          -0.002,
+          0.762
+        ],
+        "p": 0.048828125
+      },
+      "ARIMA": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 1.524,
+        "median_diff": 0.594,
+        "ci": [
+          0.328,
+          1.285
+        ],
+        "p": 0.048828125
+      },
+      "LSTM": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 4.687,
+        "median_diff": 3.532,
+        "ci": [
+          2.411,
+          5.095
+        ],
+        "p": 0.001953125
+      },
+      "BiLSTM": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 3.427,
+        "median_diff": 2.065,
+        "ci": [
+          0.976,
+          3.656
+        ],
+        "p": 0.001953125
+      },
+      "AIS-ACNet": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 1.128,
+        "median_diff": 0.099,
+        "ci": [
+          -0.159,
+          0.591
+        ],
+        "p": 0.275390625
+      },
+      "Mean-Retrieval": {
+        "n": 10,
+        "trajrag_mean": 0.811,
+        "baseline_mean": 5.68,
+        "median_diff": 4.17,
+        "ci": [
+          3.215,
+          5.655
+        ],
+        "p": 0.001953125
+      }
+    },
+    "transit": {
+      "Kalman": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 2.634,
+        "median_diff": 0.735,
+        "ci": [
+          -0.027,
+          1.699
+        ],
+        "p": 0.048828125
+      },
+      "ARIMA": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 3.005,
+        "median_diff": 1.33,
+        "ci": [
+          0.439,
+          2.041
+        ],
+        "p": 0.009765625
+      },
+      "LSTM": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 5.009,
+        "median_diff": 3.36,
+        "ci": [
+          1.807,
+          4.919
+        ],
+        "p": 0.001953125
+      },
+      "BiLSTM": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 2.808,
+        "median_diff": 1.094,
+        "ci": [
+          -0.046,
+          2.485
+        ],
+        "p": 0.130859375
+      },
+      "AIS-ACNet": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 1.947,
+        "median_diff": 0.246,
+        "ci": [
+          -0.401,
+          0.886
+        ],
+        "p": 0.431640625
+      },
+      "Mean-Retrieval": {
+        "n": 10,
+        "trajrag_mean": 1.712,
+        "baseline_mean": 3.886,
+        "median_diff": 2.205,
+        "ci": [
+          0.5,
+          3.54
+        ],
+        "p": 0.013671875
+      }
+    },
+    "arrival": {
+      "Kalman": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 0.359,
+        "median_diff": 0.185,
+        "ci": [
+          0.038,
+          0.432
+        ],
+        "p": 0.013671875
+      },
+      "ARIMA": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 0.487,
+        "median_diff": 0.008,
+        "ci": [
+          -0.028,
+          0.836
+        ],
+        "p": 0.322265625
+      },
+      "LSTM": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 4.238,
+        "median_diff": 3.384,
+        "ci": [
+          2.717,
+          5.89
+        ],
+        "p": 0.001953125
+      },
+      "BiLSTM": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 8.287,
+        "median_diff": 7.936,
+        "ci": [
+          4.703,
+          11.863
+        ],
+        "p": 0.001953125
+      },
+      "AIS-ACNet": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 1.02,
+        "median_diff": 0.957,
+        "ci": [
+          0.409,
+          1.426
+        ],
+        "p": 0.001953125
+      },
+      "Mean-Retrieval": {
+        "n": 10,
+        "trajrag_mean": 0.111,
+        "baseline_mean": 4.158,
+        "median_diff": 2.06,
+        "ci": [
+          1.245,
+          5.84
+        ],
+        "p": 0.001953125
+      }
+    }
+  }
+}

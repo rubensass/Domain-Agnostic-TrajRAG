@@ -1,0 +1,51 @@
+{
+  "main": {
+    "HOU-SHIPCHANNEL/arrival": {
+      "n": 50,
+      "constant_position_mean_km": 2.7585,
+      "heading_dr_mean_km": 2.4466
+    },
+    "HOU-SHIPCHANNEL/departure": {
+      "n": 50,
+      "constant_position_mean_km": 5.6266,
+      "heading_dr_mean_km": 1.4369
+    },
+    "HOU-SHIPCHANNEL/transit": {
+      "n": 50,
+      "constant_position_mean_km": 7.914,
+      "heading_dr_mean_km": 1.3784
+    },
+    "LA-LONGBEACH/departure": {
+      "n": 10,
+      "constant_position_mean_km": 2.6481,
+      "heading_dr_mean_km": 0.823
+    },
+    "LA-LONGBEACH/transit": {
+      "n": 10,
+      "constant_position_mean_km": 3.9334,
+      "heading_dr_mean_km": 1.5229
+    },
+    "LA-LONGBEACH/arrival": {
+      "n": 10,
+      "constant_position_mean_km": 0.492,
+      "heading_dr_mean_km": 0.1421
+    }
+  },
+  "item4_matched": {
+    "departure": {
+      "n": 63,
+      "constant_position_mean_km": 3.4395,
+      "heading_dr_mean_km": 1.111
+    },
+    "transit": {
+      "n": 63,
+      "constant_position_mean_km": 3.2349,
+      "heading_dr_mean_km": 0.5512
+    },
+    "arrival": {
+      "n": 53,
+      "constant_position_mean_km": 1.6517,
+      "heading_dr_mean_km": 0.5493
+    }
+  }
+}

@@ -1,0 +1,96 @@
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit}
+
+\journal{Engineering Applications of Artificial Intelligence}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Retrieval-augmented large language models for training-free trajectory reconstruction under satellite navigation spoofing in aviation and maritime surveillance}
+
+\author[bgu]{Yuval Felendler\corref{cor1}}
+\ead{yuvalfel@post.bgu.ac.il}
+\author[bgu]{Ruben Sasson}
+\ead{rubenyaa@post.bgu.ac.il}
+\author[bgu]{Yuval Elovici}
+\ead{elovici@bgu.ac.il}
+\author[bgu]{Asaf Shabtai}
+\ead{shabtaia@bgu.ac.il}
+
+\cortext[cor1]{Corresponding author.}
+\address[bgu]{Faculty of Computer and Information Science, Ben-Gurion University of the Negev, Beer-Sheva, Israel}
+
+\begin{abstract}
+When an aircraft or a vessel is suspected of receiving spoofed satellite-navigation
+signals, surveillance operators must discard its broadcast positions yet keep
+tracking it. Existing trajectory predictors are trained for a single transport
+domain and must be rebuilt for each new one. This paper extends TrajRAG
+(Trajectory Retrieval-Augmented Generation) from aviation to a domain-agnostic
+framework. \emph{Contribution in artificial intelligence:} we formulate
+post-detection trajectory reconstruction as retrieval-conditioned sequential
+inference by a large language model whose parameters are never updated, and we
+isolate a domain adapter -- a textual-state prompt template, a phase-indexed
+vector memory, a trusted non-satellite signal and a data-calibrated kinematic
+feasibility bound -- as the only component that changes between domains.
+\emph{Application in engineering:} one reconstruction engine maintains track
+continuity for air-traffic surveillance based on Automatic Dependent
+Surveillance--Broadcast messages and for vessel traffic services based on
+Automatic Identification System messages. Transferred to shipping without any
+model training, the framework is evaluated on commercial vessels in two
+United States port corridors, against a retrieval memory that structurally
+excludes both the test set and any chronologically later voyage, and against
+fourteen maritime baselines. It reduces mean reconstruction error by a factor
+of 1.3--1.5 relative to the best classical baseline in every voyage phase,
+significantly so (paired Wilcoxon test, $p<10^{-3}$ in every case). Against a
+trained, ship-specific convolutional network, it is statistically
+indistinguishable in every phase (Houston, $n=50$), matching -- without any
+maritime training data -- a model purpose-trained on this corridor's own
+traffic. A complete blackout reconstruction finishes in under 35\,s, well
+within the 5-minute vessel reporting interval. These results show that prompt
+and memory design, rather than retraining, can carry trajectory reconstruction
+across transport domains.
+\end{abstract}
+
+\begin{highlights}
+\item Training-free trajectory reconstruction after satellite-navigation spoofing
+\item One engine serves aircraft and ships; only prompt, index and trusted signal change
+\item Ship trajectories reconstructed with a frozen language model and no ship training
+\item Statistically indistinguishable from a trained, ship-specific network in every phase tested
+\item Significantly beats every classical, recurrent and retrieval-only baseline; validated on 1,544 flights and 60 vessels against fourteen maritime baselines
+\end{highlights}
+
+\begin{keyword}
+Satellite navigation spoofing \sep Trajectory reconstruction \sep Retrieval-augmented generation \sep Large language models \sep Automatic Identification System \sep Air traffic surveillance \sep Cross-domain transfer
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sec_intro}
+\input{sec_related}
+\input{sec_framework}
+\input{sec_instantiation}
+\input{sec_design}
+\input{sec_results}
+\input{sec_discussion}
+\input{sec_conclusion}
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{refs}
+
+\appendix
+\input{sec_appendix}
+
+\end{document}

@@ -1,0 +1,14 @@
+{
+  "model": "iTransformer",
+  "phase": "departure",
+  "window": 4,
+  "n_params": 266372,
+  "train_size": 1547,
+  "val_size": 273,
+  "test_size": 113,
+  "ade_km": 2.4052750667573477,
+  "fde_km": 3.9564272201957285,
+  "ade_nm": 1.2987446364780495,
+  "fde_nm": 2.1362997949220994,
+  "best_val_loss": 0.13766938000917434
+}

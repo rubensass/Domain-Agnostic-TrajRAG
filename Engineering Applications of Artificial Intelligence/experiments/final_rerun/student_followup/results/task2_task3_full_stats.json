@@ -1,0 +1,808 @@
+{
+  "F1_houston_main": [
+    {
+      "label": "Houston/departure/Kalman",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 3.1635,
+      "mean_diff_km": 0.9779,
+      "mean_diff_ci95": [
+        0.3796,
+        1.5584
+      ],
+      "median_diff_km": 0.8602,
+      "wilcoxon_p": 9.468707561843814e-05,
+      "p_holm": 0.000852,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/ARIMA",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 3.6375,
+      "mean_diff_km": 1.4519,
+      "mean_diff_ci95": [
+        0.6773,
+        2.2001
+      ],
+      "median_diff_km": 0.9914,
+      "wilcoxon_p": 0.00011903464815610221,
+      "p_holm": 0.000952,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/LSTM",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 10.4347,
+      "mean_diff_km": 8.2491,
+      "mean_diff_ci95": [
+        6.4555,
+        10.0946
+      ],
+      "median_diff_km": 9.1166,
+      "wilcoxon_p": 8.842704346534447e-12,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/BiLSTM",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 10.025,
+      "mean_diff_km": 7.8394,
+      "mean_diff_ci95": [
+        6.4257,
+        9.2721
+      ],
+      "median_diff_km": 7.9211,
+      "wilcoxon_p": 1.1368683772161603e-12,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/Numeric-kNN",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 5.5341,
+      "mean_diff_km": 3.3486,
+      "mean_diff_ci95": [
+        2.03,
+        4.7916
+      ],
+      "median_diff_km": 2.3556,
+      "wilcoxon_p": 7.518488965629899e-06,
+      "p_holm": 7.5e-05,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/Mean-Retrieval",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 13.8916,
+      "mean_diff_km": 11.706,
+      "mean_diff_ci95": [
+        8.4441,
+        15.3791
+      ],
+      "median_diff_km": 6.1159,
+      "wilcoxon_p": 5.329070518200751e-15,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/departure/AIS-ACNet",
+      "n": 50,
+      "trajrag_mean_km": 2.1856,
+      "baseline_mean_km": 1.8017,
+      "mean_diff_km": -0.3839,
+      "mean_diff_ci95": [
+        -0.9924,
+        0.1206
+      ],
+      "median_diff_km": 0.1156,
+      "wilcoxon_p": 0.7521534307154649,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Houston/transit/Kalman",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 2.6139,
+      "mean_diff_km": 0.6666,
+      "mean_diff_ci95": [
+        0.2146,
+        1.2168
+      ],
+      "median_diff_km": 0.4294,
+      "wilcoxon_p": 0.0002857006608838475,
+      "p_holm": 0.002,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/ARIMA",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 3.7798,
+      "mean_diff_km": 1.8324,
+      "mean_diff_ci95": [
+        1.2006,
+        2.4882
+      ],
+      "median_diff_km": 1.4354,
+      "wilcoxon_p": 8.403119267086367e-08,
+      "p_holm": 1e-06,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/LSTM",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 7.9855,
+      "mean_diff_km": 6.0382,
+      "mean_diff_ci95": [
+        4.9377,
+        7.1586
+      ],
+      "median_diff_km": 5.1045,
+      "wilcoxon_p": 3.375077994860476e-14,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/BiLSTM",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 14.1036,
+      "mean_diff_km": 12.1562,
+      "mean_diff_ci95": [
+        10.3823,
+        13.8973
+      ],
+      "median_diff_km": 12.8555,
+      "wilcoxon_p": 1.2434497875801753e-14,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/Numeric-kNN",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 3.9282,
+      "mean_diff_km": 1.9809,
+      "mean_diff_ci95": [
+        0.5675,
+        3.731
+      ],
+      "median_diff_km": 0.912,
+      "wilcoxon_p": 0.0008156048825487261,
+      "p_holm": 0.004078,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/Mean-Retrieval",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 8.7586,
+      "mean_diff_km": 6.8113,
+      "mean_diff_ci95": [
+        4.8654,
+        8.8846
+      ],
+      "median_diff_km": 5.2021,
+      "wilcoxon_p": 8.008242957657785e-10,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/transit/AIS-ACNet",
+      "n": 50,
+      "trajrag_mean_km": 1.9473,
+      "baseline_mean_km": 1.6597,
+      "mean_diff_km": -0.2876,
+      "mean_diff_ci95": [
+        -0.7159,
+        0.0924
+      ],
+      "median_diff_km": 0.0685,
+      "wilcoxon_p": 0.5398998476772991,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Houston/arrival/Kalman",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 4.2295,
+      "mean_diff_km": 2.7335,
+      "mean_diff_ci95": [
+        1.8715,
+        3.6438
+      ],
+      "median_diff_km": 1.3121,
+      "wilcoxon_p": 1.1467804483800137e-10,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/ARIMA",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 2.2419,
+      "mean_diff_km": 0.746,
+      "mean_diff_ci95": [
+        0.2315,
+        1.2688
+      ],
+      "median_diff_km": 0.3824,
+      "wilcoxon_p": 0.00032407658280853013,
+      "p_holm": 0.002,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/LSTM",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 6.4151,
+      "mean_diff_km": 4.9191,
+      "mean_diff_ci95": [
+        3.7793,
+        6.0641
+      ],
+      "median_diff_km": 4.2827,
+      "wilcoxon_p": 1.5448975432263978e-11,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/BiLSTM",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 16.4273,
+      "mean_diff_km": 14.9313,
+      "mean_diff_ci95": [
+        9.5385,
+        20.621
+      ],
+      "median_diff_km": 5.3297,
+      "wilcoxon_p": 8.842704346534447e-12,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/Numeric-kNN",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 3.1706,
+      "mean_diff_km": 1.6746,
+      "mean_diff_ci95": [
+        0.7411,
+        2.7199
+      ],
+      "median_diff_km": 0.3013,
+      "wilcoxon_p": 0.006325487527247375,
+      "p_holm": 0.025302,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/Mean-Retrieval",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 7.0284,
+      "mean_diff_km": 5.5325,
+      "mean_diff_ci95": [
+        3.8787,
+        7.228
+      ],
+      "median_diff_km": 4.1236,
+      "wilcoxon_p": 3.0854181432005134e-09,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "Houston/arrival/AIS-ACNet",
+      "n": 50,
+      "trajrag_mean_km": 1.496,
+      "baseline_mean_km": 1.181,
+      "mean_diff_km": -0.3149,
+      "mean_diff_ci95": [
+        -0.7167,
+        0.0251
+      ],
+      "median_diff_km": 0.0258,
+      "wilcoxon_p": 0.4963885938865378,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    }
+  ],
+  "F2_la_main": [
+    {
+      "label": "LA-LongBeach/departure/Kalman",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 1.199,
+      "mean_diff_km": 0.388,
+      "mean_diff_ci95": [
+        0.0784,
+        0.7523
+      ],
+      "median_diff_km": 0.2001,
+      "wilcoxon_p": 0.048828125,
+      "p_holm": 0.341797,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/departure/ARIMA",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 1.5244,
+      "mean_diff_km": 0.7134,
+      "mean_diff_ci95": [
+        0.1151,
+        1.2657
+      ],
+      "median_diff_km": 0.5949,
+      "wilcoxon_p": 0.048828125,
+      "p_holm": 0.341797,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/departure/LSTM",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 4.6874,
+      "mean_diff_km": 3.8764,
+      "mean_diff_ci95": [
+        2.6269,
+        5.24
+      ],
+      "median_diff_km": 3.531,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/departure/BiLSTM",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 3.427,
+      "mean_diff_km": 2.6159,
+      "mean_diff_ci95": [
+        1.4233,
+        4.0781
+      ],
+      "median_diff_km": 2.0649,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/departure/Mean-Retrieval",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 5.6796,
+      "mean_diff_km": 4.8686,
+      "mean_diff_ci95": [
+        3.4667,
+        6.8159
+      ],
+      "median_diff_km": 4.1672,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/departure/AIS-ACNet",
+      "n": 10,
+      "trajrag_mean_km": 0.811,
+      "baseline_mean_km": 1.1275,
+      "mean_diff_km": 0.3165,
+      "mean_diff_ci95": [
+        -0.0016,
+        0.7321
+      ],
+      "median_diff_km": 0.0982,
+      "wilcoxon_p": 0.275390625,
+      "p_holm": 0.697266,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/transit/Kalman",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 2.6344,
+      "mean_diff_km": 0.9233,
+      "mean_diff_ci95": [
+        0.2299,
+        1.7126
+      ],
+      "median_diff_km": 0.7351,
+      "wilcoxon_p": 0.048828125,
+      "p_holm": 0.341797,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/transit/ARIMA",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 3.0052,
+      "mean_diff_km": 1.2941,
+      "mean_diff_ci95": [
+        0.6053,
+        2.0015
+      ],
+      "median_diff_km": 1.3275,
+      "wilcoxon_p": 0.009765625,
+      "p_holm": 0.097656,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/transit/LSTM",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 5.0093,
+      "mean_diff_km": 3.2982,
+      "mean_diff_ci95": [
+        2.331,
+        4.2578
+      ],
+      "median_diff_km": 3.3587,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/transit/BiLSTM",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 2.8077,
+      "mean_diff_km": 1.0966,
+      "mean_diff_ci95": [
+        -0.4585,
+        2.5064
+      ],
+      "median_diff_km": 1.0963,
+      "wilcoxon_p": 0.130859375,
+      "p_holm": 0.523438,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/transit/Mean-Retrieval",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 3.8867,
+      "mean_diff_km": 2.1756,
+      "mean_diff_ci95": [
+        0.8203,
+        3.4937
+      ],
+      "median_diff_km": 2.2098,
+      "wilcoxon_p": 0.013671875,
+      "p_holm": 0.123047,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/transit/AIS-ACNet",
+      "n": 10,
+      "trajrag_mean_km": 1.7111,
+      "baseline_mean_km": 1.9471,
+      "mean_diff_km": 0.236,
+      "mean_diff_ci95": [
+        -0.2779,
+        0.7166
+      ],
+      "median_diff_km": 0.2504,
+      "wilcoxon_p": 0.431640625,
+      "p_holm": 0.697266,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/arrival/Kalman",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 0.3588,
+      "mean_diff_km": 0.2468,
+      "mean_diff_ci95": [
+        0.0927,
+        0.4282
+      ],
+      "median_diff_km": 0.1834,
+      "wilcoxon_p": 0.013671875,
+      "p_holm": 0.123047,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/arrival/ARIMA",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 0.4871,
+      "mean_diff_km": 0.3751,
+      "mean_diff_ci95": [
+        -0.0318,
+        0.8927
+      ],
+      "median_diff_km": 0.0067,
+      "wilcoxon_p": 0.232421875,
+      "p_holm": 0.697266,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "LA-LongBeach/arrival/LSTM",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 4.2377,
+      "mean_diff_km": 4.1257,
+      "mean_diff_ci95": [
+        2.875,
+        5.5256
+      ],
+      "median_diff_km": 3.3814,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/arrival/BiLSTM",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 8.2868,
+      "mean_diff_km": 8.1748,
+      "mean_diff_ci95": [
+        5.7685,
+        10.5868
+      ],
+      "median_diff_km": 7.9327,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/arrival/Mean-Retrieval",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 4.1573,
+      "mean_diff_km": 4.0453,
+      "mean_diff_ci95": [
+        1.6768,
+        7.4337
+      ],
+      "median_diff_km": 2.0579,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/arrival/AIS-ACNet",
+      "n": 10,
+      "trajrag_mean_km": 0.112,
+      "baseline_mean_km": 1.0199,
+      "mean_diff_km": 0.9079,
+      "mean_diff_ci95": [
+        0.6195,
+        1.1937
+      ],
+      "median_diff_km": 0.9541,
+      "wilcoxon_p": 0.001953125,
+      "p_holm": 0.035156,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "LA-LongBeach/ALL/Numeric-kNN",
+      "n": 0,
+      "error": "Numeric-kNN was never rescored on LA/Long Beach (baseline_rescore/rescore_log.txt lists only Kalman/ARIMA/LSTM/BiLSTM for this corridor) -- not computed, not invented.",
+      "p_holm": null,
+      "significant_holm_0.05": null
+    }
+  ],
+  "F3_short_horizon": [
+    {
+      "label": "ShortHorizon/departure/AIS-ACNet",
+      "n": 63,
+      "trajrag_mean_km": 1.3015,
+      "baseline_mean_km": 1.642,
+      "mean_diff_km": 0.3405,
+      "mean_diff_ci95": [
+        0.1188,
+        0.56
+      ],
+      "median_diff_km": 0.3571,
+      "wilcoxon_p": 0.003388174383138397,
+      "p_holm": 0.003388,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "ShortHorizon/transit/AIS-ACNet",
+      "n": 63,
+      "trajrag_mean_km": 0.7306,
+      "baseline_mean_km": 1.1905,
+      "mean_diff_km": 0.4599,
+      "mean_diff_ci95": [
+        0.3022,
+        0.6077
+      ],
+      "median_diff_km": 0.5182,
+      "wilcoxon_p": 7.405763064085993e-08,
+      "p_holm": 0.0,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "ShortHorizon/arrival/AIS-ACNet",
+      "n": 53,
+      "trajrag_mean_km": 0.683,
+      "baseline_mean_km": 1.096,
+      "mean_diff_km": 0.413,
+      "mean_diff_ci95": [
+        0.1748,
+        0.6374
+      ],
+      "median_diff_km": 0.5611,
+      "wilcoxon_p": 0.00014859271900741355,
+      "p_holm": 0.000297,
+      "significant_holm_0.05": true
+    },
+    {
+      "label": "ShortHorizon/departure/iTransformer(+6 other forecasters)",
+      "n": 0,
+      "error": "No per-voyage predictions were saved for any modern forecaster, only the aggregate ADE/FDE over each forecaster's own (non-matching) test split -- a paired test against them is not possible from saved outputs.",
+      "p_holm": null,
+      "significant_holm_0.05": null
+    },
+    {
+      "label": "ShortHorizon/transit/iTransformer(+6 other forecasters)",
+      "n": 0,
+      "error": "No per-voyage predictions were saved for any modern forecaster, only the aggregate ADE/FDE over each forecaster's own (non-matching) test split -- a paired test against them is not possible from saved outputs.",
+      "p_holm": null,
+      "significant_holm_0.05": null
+    },
+    {
+      "label": "ShortHorizon/arrival/iTransformer(+6 other forecasters)",
+      "n": 0,
+      "error": "No per-voyage predictions were saved for any modern forecaster, only the aggregate ADE/FDE over each forecaster's own (non-matching) test split -- a paired test against them is not possible from saved outputs.",
+      "p_holm": null,
+      "significant_holm_0.05": null
+    }
+  ],
+  "F4_ablations": [
+    {
+      "label": "Ablation/departure/no_retrieval",
+      "n": 20,
+      "trajrag_mean_km": 2.5562,
+      "baseline_mean_km": 2.586,
+      "mean_diff_km": 0.0298,
+      "mean_diff_ci95": [
+        -0.6327,
+        0.663
+      ],
+      "median_diff_km": 0.0701,
+      "wilcoxon_p": 0.9272785186767578,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/departure/no_guard",
+      "n": 20,
+      "trajrag_mean_km": 2.5562,
+      "baseline_mean_km": 3.226,
+      "mean_diff_km": 0.6698,
+      "mean_diff_ci95": [
+        -0.0907,
+        1.5828
+      ],
+      "median_diff_km": 0.4313,
+      "wilcoxon_p": 0.20244979858398438,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/departure/no_heading",
+      "n": 20,
+      "trajrag_mean_km": 2.5562,
+      "baseline_mean_km": 2.598,
+      "mean_diff_km": 0.0419,
+      "mean_diff_ci95": [
+        -0.4729,
+        0.4979
+      ],
+      "median_diff_km": 0.2111,
+      "wilcoxon_p": 0.3117942810058594,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/transit/no_retrieval",
+      "n": 20,
+      "trajrag_mean_km": 1.6268,
+      "baseline_mean_km": 2.4166,
+      "mean_diff_km": 0.7898,
+      "mean_diff_ci95": [
+        0.2174,
+        1.5057
+      ],
+      "median_diff_km": 0.3465,
+      "wilcoxon_p": 0.012079238891601562,
+      "p_holm": 0.108713,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/transit/no_guard",
+      "n": 20,
+      "trajrag_mean_km": 1.6268,
+      "baseline_mean_km": 1.5921,
+      "mean_diff_km": -0.0348,
+      "mean_diff_ci95": [
+        -0.223,
+        0.1198
+      ],
+      "median_diff_km": 0.0812,
+      "wilcoxon_p": 0.3117942810058594,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/transit/no_heading",
+      "n": 20,
+      "trajrag_mean_km": 1.6268,
+      "baseline_mean_km": 1.4732,
+      "mean_diff_km": -0.1536,
+      "mean_diff_ci95": [
+        -0.5105,
+        0.1323
+      ],
+      "median_diff_km": 0.1351,
+      "wilcoxon_p": 0.9039076325167246,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/arrival/no_retrieval",
+      "n": 20,
+      "trajrag_mean_km": 1.4661,
+      "baseline_mean_km": 2.1981,
+      "mean_diff_km": 0.7319,
+      "mean_diff_ci95": [
+        0.2162,
+        1.3392
+      ],
+      "median_diff_km": 0.1427,
+      "wilcoxon_p": 0.058258056640625,
+      "p_holm": 0.466064,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/arrival/no_guard",
+      "n": 20,
+      "trajrag_mean_km": 1.4661,
+      "baseline_mean_km": 1.967,
+      "mean_diff_km": 0.5009,
+      "mean_diff_ci95": [
+        -0.3995,
+        1.6963
+      ],
+      "median_diff_km": 0.0002,
+      "wilcoxon_p": 0.7225627705707576,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    },
+    {
+      "label": "Ablation/arrival/no_heading",
+      "n": 20,
+      "trajrag_mean_km": 1.4661,
+      "baseline_mean_km": 1.7788,
+      "mean_diff_km": 0.3127,
+      "mean_diff_ci95": [
+        -0.5034,
+        1.1805
+      ],
+      "median_diff_km": 0.0071,
+      "wilcoxon_p": 0.5460878490645904,
+      "p_holm": 1.0,
+      "significant_holm_0.05": false
+    }
+  ],
+  "methodology": {
+    "bootstrap": "10000 resamples, voyages resampled with replacement (paired, not points), 95% CI = 2.5/97.5 percentiles of the resampled MEAN difference (baseline - TrajRAG). Positive = TrajRAG more accurate.",
+    "wilcoxon": "paired two-sided Wilcoxon signed-rank test, scipy.stats.wilcoxon, recomputed independently from saved per-step predictions (not copied from final_significance_all.json, though cross-checked against it for F1 and it matches).",
+    "holm": "Holm-Bonferroni step-down correction, alpha=0.05, applied separately within each of the four families above (not pooled across families)."
+  }
+}

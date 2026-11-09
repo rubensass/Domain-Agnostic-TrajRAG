@@ -1,0 +1,41 @@
+
+=== HOU-SHIPCHANNEL: building restricted memory (1141 voyages) ===
+  matched 1141 / 1141 pool voyages in corrected data
+  3299 phase-summaries to generate (0 already cached)
+  summarized 200/3299
+  summarized 400/3299
+  summarized 600/3299
+  summarized 800/3299
+  summarized 1000/3299
+  summarized 1200/3299
+  summarized 1400/3299
+  summarized 1600/3299
+  summarized 1800/3299
+  summarized 2000/3299
+  summarized 2200/3299
+  summarized 2400/3299
+  summarized 2600/3299
+  summarized 2800/3299
+  summarized 3000/3299
+  summarized 3200/3299
+  done: 1141 voyages summarized
+  departure: indexed 1141 voyages
+  transit: indexed 1017 voyages
+  arrival: indexed 1141 voyages
+
+=== LA-LONGBEACH: building restricted memory (486 voyages) ===
+  matched 486 / 486 pool voyages in corrected data
+  1407 phase-summaries to generate (0 already cached)
+  summarized 200/1407
+  summarized 400/1407
+  summarized 600/1407
+  summarized 800/1407
+  summarized 1000/1407
+  summarized 1200/1407
+  summarized 1400/1407
+  done: 486 voyages summarized
+  departure: indexed 486 voyages
+  transit: indexed 435 voyages
+  arrival: indexed 486 voyages
+
+Total elapsed: 46.2 min

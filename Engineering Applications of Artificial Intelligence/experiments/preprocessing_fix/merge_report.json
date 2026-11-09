@@ -1,0 +1,18 @@
+[
+  {
+    "corridor": "HOU-SHIPCHANNEL",
+    "n_original_voyages": 2408,
+    "n_matched_voyage": 2408,
+    "n_missing_in_corrected": 0,
+    "n_phase_mismatch_dropped": 0,
+    "n_voyages_written": 2408
+  },
+  {
+    "corridor": "LA-LONGBEACH",
+    "n_original_voyages": 1098,
+    "n_matched_voyage": 1098,
+    "n_missing_in_corrected": 0,
+    "n_phase_mismatch_dropped": 0,
+    "n_voyages_written": 1098
+  }
+]

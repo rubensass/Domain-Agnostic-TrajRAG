@@ -1,0 +1,192 @@
+{
+  "HOU-SHIPCHANNEL": {
+    "departure": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 6.4479,
+          "median_km": 6.1413,
+          "max_km": 15.7832
+        },
+        "moving": {
+          "n": 124,
+          "mean_km": 6.4825,
+          "median_km": 6.1501,
+          "max_km": 15.7832
+        },
+        "stationary": {
+          "n": 1,
+          "mean_km": 2.1643,
+          "median_km": 2.1643,
+          "max_km": 2.1643
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 1.1396,
+          "median_km": 0.8408,
+          "max_km": 5.5048
+        },
+        "voyages_with_no_heading_at_all": 1
+      }
+    },
+    "transit": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 7.7174,
+          "median_km": 7.5454,
+          "max_km": 18.8074
+        },
+        "moving": {
+          "n": 125,
+          "mean_km": 7.7174,
+          "median_km": 7.5454,
+          "max_km": 18.8074
+        },
+        "stationary": {
+          "n": 0,
+          "mean_km": null,
+          "median_km": null,
+          "max_km": null
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 0.7338,
+          "median_km": 0.3074,
+          "max_km": 6.4142
+        },
+        "voyages_with_no_heading_at_all": 1
+      }
+    },
+    "arrival": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 2.7044,
+          "median_km": 3.0634,
+          "max_km": 10.3055
+        },
+        "moving": {
+          "n": 85,
+          "mean_km": 3.965,
+          "median_km": 4.1789,
+          "max_km": 10.3055
+        },
+        "stationary": {
+          "n": 40,
+          "mean_km": 0.0256,
+          "median_km": 0.0035,
+          "max_km": 0.3229
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 2.0235,
+          "median_km": 0.415,
+          "max_km": 11.1548
+        },
+        "voyages_with_no_heading_at_all": 1
+      }
+    }
+  },
+  "LA-LONGBEACH": {
+    "departure": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 2.9594,
+          "median_km": 3.132,
+          "max_km": 5.4922
+        },
+        "moving": {
+          "n": 117,
+          "mean_km": 3.1016,
+          "median_km": 3.2141,
+          "max_km": 5.4922
+        },
+        "stationary": {
+          "n": 8,
+          "mean_km": 0.8788,
+          "median_km": 0.7852,
+          "max_km": 1.9737
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 0.5857,
+          "median_km": 0.5077,
+          "max_km": 2.2803
+        },
+        "voyages_with_no_heading_at_all": 0
+      }
+    },
+    "transit": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 2.9354,
+          "median_km": 2.7985,
+          "max_km": 11.6636
+        },
+        "moving": {
+          "n": 120,
+          "mean_km": 2.9338,
+          "median_km": 2.8076,
+          "max_km": 5.2313
+        },
+        "stationary": {
+          "n": 5,
+          "mean_km": 2.9739,
+          "median_km": 0.5368,
+          "max_km": 11.6636
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 0.5984,
+          "median_km": 0.409,
+          "max_km": 11.6425
+        },
+        "voyages_with_no_heading_at_all": 0
+      }
+    },
+    "arrival": {
+      "stay": {
+        "all": {
+          "n": 125,
+          "mean_km": 0.5413,
+          "median_km": 0.0086,
+          "max_km": 5.9062
+        },
+        "moving": {
+          "n": 25,
+          "mean_km": 2.5805,
+          "median_km": 2.2752,
+          "max_km": 5.9062
+        },
+        "stationary": {
+          "n": 100,
+          "mean_km": 0.0315,
+          "median_km": 0.0046,
+          "max_km": 0.2535
+        }
+      },
+      "headingdr": {
+        "all": {
+          "n": 125,
+          "mean_km": 0.1292,
+          "median_km": 0.0343,
+          "max_km": 1.3678
+        },
+        "voyages_with_no_heading_at_all": 0
+      }
+    }
+  }
+}

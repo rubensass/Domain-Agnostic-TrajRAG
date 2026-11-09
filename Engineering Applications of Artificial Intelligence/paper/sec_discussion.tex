@@ -1,0 +1,127 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What transfers across domains, and what does not}
+
+Three patterns held in both domains. First, difficulty follows phase
+dynamics. Short, manoeuvre-dominated phases (takeoff; departure and arrival)
+are harder than long, steady ones (cruise; transit), which supports
+phase-specific memories in both adapters. Second, grounding matters more
+than the generator. In both domains, retrieval-only baselines capture part
+of the gain, and a guarded LLM on top of retrieval captures the rest. A
+maritime-only check reinforces the phase point directly: a two-parameter
+dead-reckoning baseline that only holds the last trusted speed and reads
+the live trusted heading already matches or beats TrajRAG and AIS-ACNet in
+Houston departure/transit and Los Angeles/Long Beach transit, and is
+markedly worse than both in the turning-dominated arrival phase
+(Section~\ref{sec:simple-baselines}); the genuinely hard, differentiating
+comparisons across every method tested are concentrated in manoeuvre-heavy
+phases, not steady ones. Third,
+memories can be extended across routes and corridors without loss of
+accuracy. One thing did \emph{not} transfer automatically: the numeric value
+of the feasibility tolerance. This distinction between procedure and
+constant is the main practical lesson for anyone porting the framework to a
+further domain, such as rail, road freight or unmanned aircraft.
+
+\subsection{When is a trained domain model preferable?}
+
+No significant difference was detected between AIS-ACNet and TrajRAG in any
+of the three Houston phases (Section~\ref{sec:significance}), though
+AIS-ACNet had the lower sample mean in all three; it is also cheaper per
+inference. We read matching, rather than beating, a strong ship-specific
+network as the relevant result: AIS-ACNet is purpose-trained per phase on
+this corridor's own traffic, while TrajRAG uses no maritime training data
+at all. When a single domain and a single port are of interest, when a
+curated training set and a machine-learning pipeline are available, and when
+the traffic pattern is stable, a dedicated network remains a sound
+engineering choice, and on this evidence it is not dominated by TrajRAG in
+accuracy. TrajRAG is preferable when one service must cover several domains
+or many corridors, when new corridors must come online quickly, when
+training data per corridor are limited, or when operators need an
+interpretable trail of the retrieved precedents and of the guard's
+interventions -- advantages of engineering flexibility, not of raw
+accuracy, on the evidence reported here.
+
+\subsection{Operational integration}
+
+In deployment, TrajRAG sits behind an interference detector and in front of
+the operator display (Fig.~\ref{fig:architecture}). The reconstructed track
+should be presented as an estimate, with the guard's low-confidence flag
+shown whenever a proposal was clamped. When trusted reports resume, or an
+independent source such as surface radar or multilateration becomes
+available, the reconstruction should be replaced by that source rather than
+fused with it. For VTS centres that already operate coastal radar, the
+reconstruction is most valuable outside radar coverage, or as a cross-check
+that flags a broadcast track that departs from where precedent and physics
+say the ship should be.
+
+\subsection{Threats to validity}
+\label{sec:threats}
+
+\textbf{Internal validity.} (i) The maritime reference-speed rule now holds
+the reference speed at the last trusted SOG for the whole blackout
+(Section~\ref{sec:maritime-speedrule}), which reads no post-onset field; an
+earlier variant that updated it from the recorded SOG at each reconstructed
+step is reported only as a brief, superseded pre-correction comparison
+(Section~\ref{sec:r1-result}), not as a result. (ii) The two domains' main
+results use different LLM backbones (gpt-5.1 and gpt-4.1) and slightly
+different retrieval sizes; an earlier, pre-correction pass
+(Section~\ref{sec:maritime-backbone}) measured the effect directly and
+found it phase-dependent rather than uniform, but that pass was not
+re-run under the preprocessing and retrieval-memory corrections, so it is
+disclosed as a directional check rather than a fully confirmed
+confound-free result. (iii) The modern forecasters were evaluated on
+a shorter horizon and a subset of voyages; Table~\ref{tab:item4-matched}
+gives TrajRAG and AIS-ACNet a matched comparison on that same subset and
+horizon, but the forecasters themselves were not retrained under the
+corrected data. (x) Budget constraints limited TrajRAG's headline
+evaluation to 50 Houston and 10 Los Angeles/Long Beach voyages rather than
+the full 125-per-corridor test set. Every other method is rescored on the
+identical subset for a matched comparison, and AIS-ACNet's full-125 and
+matched-subset means agree closely, but the Los Angeles/Long Beach cell
+size in particular ($n=10$) gives limited statistical power, and several
+corridor comparisons that might reach significance at $n=125$ do not at
+$n=10$. \textbf{External validity.} (iv)
+Both maritime corridors are in the United States, and only cargo and tanker
+vessels were included. (v) The trusted-signal assumption fails on vessels
+whose heading comes from a satellite compass. Such vessels would need a
+different trusted signal, or none, in which case the guard alone bounds the
+error. (vi) The blackouts are simulated on real trajectories. Unlike
+aviation, where multilateration offered an independent reference for real
+interference episodes, we do not yet have an independently verified
+maritime incident. \textbf{Construct validity.} (vii) MHE weights all steps
+equally. Operators may care more about end-of-blackout error or about
+cross-track error in a channel. Normalised errors
+(Table~\ref{tab:normalized}) partly address the first concern. (viii) An
+earlier implementation of TrajRAG's retrieval memory had two problems: it
+excluded only the exact query voyage from the corridor corpus, not the
+other 124 test voyages, so a reconstruction could retrieve another test
+voyage as a precedent; and it had no chronological cutoff among the
+remaining (non-test) voyages, so a reconstruction could retrieve a
+precedent recorded after the query. We treat both as correctness bugs
+rather than disclosable design choices and fixed them directly
+(Section~\ref{sec:data}): every result in this paper is reconstructed
+against a memory built only from the chronologically earliest half of each
+corridor's non-test voyages, with every test voyage additionally excluded,
+so no retrieved precedent can postdate or belong to the test set, by
+construction. (ix) The maritime phase label used throughout evaluation
+comes from offline, full-voyage SOG segmentation
+(Section~\ref{sec:maritime-adapter}), not from the online,
+trusted-information-only phase rule $\pi$ that
+Algorithm~\ref{alg:reconstruction} specifies; online phase identification
+for maritime is unimplemented and untested. (xi) Every family of related
+comparisons in this paper (the Houston main set, the Los Angeles/Long Beach
+main set, the short-horizon matched comparison, and the ablations) is now
+corrected for multiple testing with Holm's method within that family
+(Section~\ref{sec:significance}); this changes two substantive conclusions
+relative to treating each raw $p$-value in isolation. First, several
+Los Angeles/Long Beach comparisons that look significant uncorrected
+(every Kalman cell, departure ARIMA) do not survive correction at $n=10$
+(Table~\ref{tab:wilcoxon-la}). Second, the maritime ablation's
+retrieval-removal effect, which looked significant in transit and arrival
+before correction, does not survive it at $n=20$
+(Table~\ref{tab:maritime-ablation}); we report its direction as suggestive
+only. In neither case does a non-significant corrected result establish
+that the compared methods, or the ablated and full pipelines, perform
+equivalently -- only that these sample sizes do not resolve a difference
+once corrected for testing several related hypotheses together.

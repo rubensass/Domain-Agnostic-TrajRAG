@@ -1,0 +1,16 @@
+# Core engine (retrieval + LLM calls)
+openai>=1.50.0
+faiss-cpu==1.8.0
+python-dotenv==1.0.1
+
+# Numerics / data handling
+numpy>=1.26.0,<2.0
+pandas>=2.0
+scipy>=1.11
+
+# Classical / recurrent baselines
+statsmodels>=0.14
+torch>=2.1
+
+# Plots (figures, forest plot, case studies)
+matplotlib>=3.8

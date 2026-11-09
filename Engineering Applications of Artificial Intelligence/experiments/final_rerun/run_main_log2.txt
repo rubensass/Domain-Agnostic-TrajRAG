@@ -1,0 +1,10 @@
+60 voyages loaded
+Corridor data + restricted FAISS indexes warmed.
+Resuming: 140 already completed.
+40 experiments remaining (180 total)
+  150/180 done (0 failed) -- running cost ~$35.16, 0.5 min elapsed
+  160/180 done (0 failed) -- running cost ~$37.22, 0.8 min elapsed
+  170/180 done (0 failed) -- running cost ~$39.27, 1.0 min elapsed
+  180/180 done (0 failed) -- running cost ~$42.61, 1.5 min elapsed
+
+Done. 180 total, 0 failed. Final running cost ~$42.61

@@ -1,0 +1,14 @@
+{
+  "model": "DLinear",
+  "phase": "transit",
+  "window": 3,
+  "n_params": 24,
+  "train_size": 1212,
+  "val_size": 214,
+  "test_size": 118,
+  "ade_km": 3.08129626459929,
+  "fde_km": 4.644513932105711,
+  "ade_nm": 1.663766881533094,
+  "fde_nm": 2.5078368963853728,
+  "best_val_loss": 0.17503813095390797
+}

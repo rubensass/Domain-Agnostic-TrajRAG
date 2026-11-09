@@ -1,0 +1,14 @@
+{
+  "model": "FEDformer",
+  "phase": "arrival",
+  "window": 4,
+  "n_params": 538376,
+  "train_size": 1482,
+  "val_size": 262,
+  "test_size": 99,
+  "ade_km": 1.0642129148790842,
+  "fde_km": 1.317695472484854,
+  "ade_nm": 0.5746290037144083,
+  "fde_nm": 0.711498635251001,
+  "best_val_loss": 0.11851827278733254
+}
