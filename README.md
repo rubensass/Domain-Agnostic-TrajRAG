@@ -216,7 +216,7 @@ original 125-voyage-per-corridor held-out test set. Because fix (2) above
 required rebuilding the retrieval memory from scratch and re-running every
 reconstruction, and a full 125-per-corridor LLM rerun was not affordable, the
 paper's **headline TrajRAG numbers use a smaller common test set**: 50
-Houston voyages and 10 LA/Long Beach voyages, every one of them dated after
+Houston voyages and 20 LA/Long Beach voyages, every one of them dated after
 its corridor's memory cutoff
 (`experiments/final_rerun/voyage_manifest.json`'s
 `main_reconstruction_voyage_ids`). Every other method (all baselines) is
@@ -269,7 +269,7 @@ OpenAI key and will incur API cost):
 |---|---|---|---|
 | 1 | Build the corrected dataset | `experiments/preprocessing_fix/corrected_build_voyages.py` | no |
 | 2 | Build the restricted retrieval memory | `experiments/final_rerun/build_restricted_memory.py` | yes (embeddings only) |
-| 3 | Main TrajRAG reconstruction (50 Houston + 10 LA/LB voyages × 3 phases) | `experiments/final_rerun/run_main_reconstruction.py` | yes |
+| 3 | Main TrajRAG reconstruction (50 Houston + 20 LA/LB voyages × 3 phases) | `experiments/final_rerun/run_main_reconstruction.py` | yes |
 | 4 | Maritime ablations (no_retrieval / no_guard / no_heading, 20 voyages × 3 phases) | `experiments/final_rerun/run_ablations.py` | yes |
 | 5 | Short-horizon matched comparison vs. the 7 generic forecasters | `experiments/final_rerun/run_item4_matched.py` | yes |
 | 6 | Rescore classical/recurrent/retrieval-only baselines on the corrected data | `experiments/final_rerun/baseline_rescore/rescore_baselines.py` | no |
@@ -302,7 +302,7 @@ Every number in the paper traces to one of these files. All are plain JSON;
 
 | Paper item | File |
 |---|---|
-| Table "Maritime transfer" (pooled 60-voyage mean/σ) | `experiments/final_rerun/results/main_reconstruction_raw.json` (TrajRAG) + `experiments/final_rerun/baseline_rescore/aggregate_*.json` (other baselines) |
+| Table "Maritime transfer" (pooled 70-voyage mean/σ) | `experiments/final_rerun/results/main_reconstruction_raw.json` (TrajRAG) + `experiments/final_rerun/baseline_rescore/aggregate_*.json` (other baselines) |
 | Table "Item4-matched" (short-horizon TrajRAG/AIS-ACNet) | `experiments/final_rerun/results/item4_matched_raw.json`, `experiments/final_rerun/ais_acnet_corrected/item4_points_*.json` |
 | Table "Extended comparison" (8-method Houston table) | same files, aggregated by `experiments/final_rerun/student_followup/pairing.py` |
 | Table "Distribution" / "Normalized error" | computed directly from `main_reconstruction_raw.json` + baseline details |
